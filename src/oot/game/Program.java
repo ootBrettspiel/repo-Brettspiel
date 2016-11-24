@@ -19,6 +19,7 @@ public class Program
 				+ "/newgame\n/loadgame -path\n/exit\num ein neues Spiel zu starten, "
 				+ "ein gespeichertes Spiel fortzusetzen, oder das Programm zu beenden.");
 
+
 		Scanner consoleInput = new Scanner(System.in);
 
 		while(true)
