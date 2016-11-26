@@ -1,11 +1,14 @@
 package oot.game;
 
+import java.io.Serializable;
+
 /**
  * Represents a cell of a game board object.
  * @author Christopher Rotter
  *
  */
-public class Cell
+@SuppressWarnings("serial")
+public class Cell implements Serializable
 {
 	/**
 	 * A token that occupies this cell.

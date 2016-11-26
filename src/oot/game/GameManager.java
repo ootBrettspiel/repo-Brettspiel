@@ -7,6 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ *
+ * @author Christopher Rotter
+ *
+ */
 @SuppressWarnings("serial")
 public class GameManager implements Serializable
 {
@@ -20,6 +25,20 @@ public class GameManager implements Serializable
 	public GameManager(GameBoard board/*, Player player_1, Player player_2*/)
 	{
 		this.board = board;
+	}
+
+	/**
+	 * Gives every player the opportunity to make a move and draws the game board.
+	 * @return True if the game has ended.
+	 */
+	public boolean update()
+	{
+		// TODO: player turns, console dialogue
+
+		board.draw();
+
+		// TODO: game shutdown logic
+		return true;
 	}
 
 	/**

@@ -1,11 +1,14 @@
 package oot.game;
 
+import java.io.Serializable;
+
 /**
  * Represents a game board for the game OOThello.
  * @author Christopher Rotter
  *
  */
-public class GameBoard
+@SuppressWarnings("serial")
+public class GameBoard implements Serializable
 {
 	/**
 	 * The cells that make up the board.
@@ -25,6 +28,21 @@ public class GameBoard
 		}
 
 		cells = new Cell[size + 2][size + 2];
+
+		for (int i = 0; i < cells.length; i++)
+		{
+			for (int j = 0; j < cells.length; j++)
+			{
+				if (i == 0 && j == 0 || i == cells.length - 1 && j == 0 || i == 0 && j == cells.length - 1 || i == cells.length - 1 && j == cells.length - 1)
+				{
+					cells[i][j] = new Cell(Token.valueOf("Blocked"));
+				}
+				else
+				{
+					cells[i][j] = new Cell(null);
+				}
+			}
+		}
 	}
 
 	/**
@@ -40,15 +58,15 @@ public class GameBoard
 			{
 				if (cells[i][j].getToken() != null)
 				{
-					System.out.print(cells[i][j].getToken().getSymbol());
+					System.out.print("  " + cells[i][j].getToken().getSymbol() + "  ");
 				}
 				else
 				{
-					System.out.print(" ");
+					System.out.print("     ");
 				}
 
 				System.out.print("|");
-				spacer += "_";
+				spacer += "______";
 			}
 
 			System.out.println();
