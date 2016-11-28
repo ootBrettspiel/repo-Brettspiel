@@ -7,45 +7,52 @@ import java.util.Random;
  * @author Christian Coenen
  *
  */
-public class GameKI
+public class GameAI
 {
-	/*
-	 * Hidden class variable to create only one object.
-	 */
-	private static GameKI instance;
-
-	/*
-	 * Value of possible moves - changes every move.
-	 */
+	 // Value of possible moves - changes every move.
 	private int possibleMoves;
 
-	/*
-	 * Size of the inner field.
-	 */
+	// Size of the inner field.
 	private int innerFieldSize;
 
-	/**
-	 * Private constructor, because GameKI is a singleton.
-	 */
-	private GameKI(){ }
+	// Difficulty of the GameAI. (easy, normal, hard)
+	private Difficulty difficulty;
+
+	// The GameBoard object.
+	private GameBoard gameBoard;
+
+	// Array which stores the value of every field
+	private Cell[][] board;
 
 	/**
-	 * Method to create only one GameKI object in lifetime.
-	 * @return the GameKI objekt.
+	 * Constructor to create a GameAI object.
 	 */
-	public static synchronized GameKI getInstance()
+	public GameAI(Difficulty difficulty, GameBoard gameBoard)
 	{
-		if(GameKI.instance == null)
-			GameKI.instance = new GameKI();
+		this.difficulty = difficulty;
+		this.gameBoard = gameBoard;
+	}
 
-		return GameKI.instance;
+	/**
+	 * Starts the matching AI method.
+	 * @throws NoSuchFieldException if the GameKI can´t make a move.
+	 */
+	public void makeTurn() throws NoSuchFieldException
+	{
+		board = gameBoard.getCells();
+
+		if(difficulty == Difficulty.EASY)
+			easyMode();
+		else if(difficulty == Difficulty.MEDIUM)
+			normalMode();
+		else if(difficulty == Difficulty.HARD)
+			hardMode();
 	}
 
 	/**
 	 * Method to let the GameKI make a move on the easy mode.
-	 * @param board to check the actual board situation.
 	 */
-	public void easyMode(Cell[][] board) throws NoSuchFieldException
+	private void easyMode() throws NoSuchFieldException
 	{
 		int[][] fieldStrength = calcFields(board);
 		if(possibleMoves == 0)
@@ -65,9 +72,8 @@ public class GameKI
 
 	/**
 	 * Method to let the GameKI make a move on the normal mode.
-	 * @param board to check the actual board situation.
 	 */
-	public void normalMode(Cell[][] board) throws NoSuchFieldException
+	private void normalMode() throws NoSuchFieldException
 	{
 		int[][] fieldStrength = calcFields(board);
 		int max = 0;
@@ -91,9 +97,8 @@ public class GameKI
 
 	/**
 	 * Method to let the GameKI make a move on the hard mode.
-	 * @param board to check the actual board situation.
 	 */
-	public void hardMode(Cell[][] board) throws NoSuchFieldException
+	private void hardMode() throws NoSuchFieldException
 	{
 		//TODO: implement algorithm
 	}
@@ -101,10 +106,9 @@ public class GameKI
 
 	/**
 	 * Calculates the strength of every possible move.
-	 * @param board to check the actual board situation.
 	 * @return an array with the number of capturable fields of every field.
 	 */
-	public int[][] calcFields(Cell[][] board)
+	private int[][] calcFields(Cell[][] board)
 	{
 		innerFieldSize = board[0].length-2;
 		int[][] fieldStrength = new int[innerFieldSize][innerFieldSize];
@@ -117,7 +121,7 @@ public class GameKI
 		    	 if(board[row][collumn].getToken() == Token.Cross)
 		    	 {
 		    		 // get the number of grabbed fields with a move on the field
-		    		 fieldStrength[row][collumn] = calcOneField(board, row, collumn);
+		    		 fieldStrength[row][collumn] = calcOneField(row, collumn);
 		    		 if(fieldStrength[row][collumn] != 0)
 		    			 possibleMoves++;
 		    	 }
@@ -128,38 +132,36 @@ public class GameKI
 
 	/**
 	 * Calculates the strength of a possible move.
-	 * @param board to check the actual board situation.
 	 * @param row to calculate
 	 * @param collumn to calculate
 	 * @return number of capturable fields
 	 */
-	public int calcOneField(Cell[][] board, int row, int collumn)
+	private int calcOneField(int row, int collumn)
 	{
 		int captureValue = 0;
 		/*
 		 * Checks how many fields can be captures for every direction.
 		 */
-		captureValue += calcOnePath(board, row-1, collumn-1, -1, -1); // Top, left
-		captureValue += calcOnePath(board, row-1, collumn, -1, 0); // Top, middle
-		captureValue += calcOnePath(board, row-1, collumn+1, -1, 1); // Top, right
-		captureValue += calcOnePath(board, row, collumn-1, 0, -1); // Middle, left
-		captureValue += calcOnePath(board, row, collumn+1, 0, 1); // Middle, right
-		captureValue += calcOnePath(board, row+1, collumn-1, 1, -1); // Bottom, left
-		captureValue += calcOnePath(board, row+1, collumn+1, 1, 1); // Bottom, right
+		captureValue += calcOnePath(row-1, collumn-1, -1, -1); // Top, left
+		captureValue += calcOnePath(row-1, collumn, -1, 0); // Top, middle
+		captureValue += calcOnePath(row-1, collumn+1, -1, 1); // Top, right
+		captureValue += calcOnePath(row, collumn-1, 0, -1); // Middle, left
+		captureValue += calcOnePath(row, collumn+1, 0, 1); // Middle, right
+		captureValue += calcOnePath(row+1, collumn-1, 1, -1); // Bottom, left
+		captureValue += calcOnePath(row+1, collumn+1, 1, 1); // Bottom, right
 
 		return captureValue;
 	}
 
 	/**
 	 * Checks how many fields can be captures by a given direction of a given field.
-	 * @param board to check the actual board situation.
 	 * @param row to calculate
 	 * @param collumn to calculate
 	 * @param moveRow direction to search
 	 * @param moveCollumn direction to search
 	 * @return number of capturable fields for the direction
 	 */
-	public int calcOnePath(Cell[][] board, int row, int collumn, int moveRow, int moveCollumn)
+	private int calcOnePath(int row, int collumn, int moveRow, int moveCollumn)
 	{
 		int counter = 0;
 		// checking position must not leave the board!
