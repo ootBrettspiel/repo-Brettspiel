@@ -3,16 +3,16 @@ package oot.game;
 import java.util.Scanner;
 
 /**
- * Helper class for easier user dialog via the console.
+ * Helper class for formatting user input.
  * @author Christopher Rotter
  *
  */
-public class InputPrompt
+public class InputFormatter
 {
 	/**
-	 * The message that will show when the prompt is started.
+	 * Scanner object reference to read from the System.in stream
 	 */
-	private String message;
+	private Scanner scanner;
 
 	/**
 	 * The arguments that were read from the console.
@@ -25,25 +25,20 @@ public class InputPrompt
 	private int pos;
 
 	/**
-	 * Creates a new input prompt with the give message.
-	 * @param message
+	 * Creates a new input formatter.
 	 */
-	public InputPrompt(String message)
+	public InputFormatter(Scanner scanner)
 	{
-		this.message = message;
+		this.scanner = scanner;
 	}
 
 	/**
-	 * Shows the message to the user and reads the next line of input.
+	 * Reads the next line of input and formats it.
 	 */
-	public void show()
+	public void readInput()
 	{
-		System.out.println(message);
-
-		Scanner scanner = new Scanner(System.in);
 		arguments = scanner.nextLine().split(" ");
 		pos = 0;
-		scanner.close();
 	}
 
 	/**
@@ -59,18 +54,6 @@ public class InputPrompt
 		else
 		{
 			return arguments[pos++];
-		}
-	}
-
-	public int getArgumentCount()
-	{
-		if (arguments == null)
-		{
-			return 0;
-		}
-		else
-		{
-			return arguments.length;
 		}
 	}
 

@@ -7,7 +7,7 @@ package oot.game;
  */
 public enum Token
 {
-	Blocked('-'), Circle('O'), Cross('X');
+	BLOCKED('-'), CIRCLE('O'), CROSS('X');
 
 	/**
 	 * The char that is representing this token graphically.

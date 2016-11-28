@@ -1,6 +1,7 @@
 package oot.game;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * The program class contains the main method and is responsible for starting the game.
@@ -17,35 +18,39 @@ public class Program
 	 */
 	public static void main(String[] args)
 	{
-		InputPrompt prompt = new InputPrompt("Willkommen bei OOThello!\nNutzen Sie die Kommandos\n"
+		System.out.println("Willkommen bei OOThello!\nNutzen Sie die Kommandos\n"
 				+ "/newgame -size\n/loadgame -path\n/exit\num ein neues Spiel zu starten, "
 				+ "ein gespeichertes Spiel fortzusetzen, oder das Programm zu beenden.");
 
+		Scanner scanner = new Scanner(System.in);
+
 		while(true)
 		{
-			prompt.show();
-			String command = prompt.getNext();
+			InputFormatter input = new InputFormatter(scanner);
+			input.readInput();
 
-			if (command.equals("/newgame") && !prompt.isAtEnd())
+			String command = input.getNext();
+
+			if (command != null && command.equals("/newgame") && !input.isAtEnd())
 			{
 				try
 				{
-					gameManager = new GameManager(new GameBoard(Integer.parseInt(prompt.getNext())));
+					gameManager = new GameManager(new GameBoard(Integer.parseInt(input.getNext())));
 					break;
 				}
 				catch (IllegalArgumentException e)
 				{
 					System.out.println("Die eingegebene Spielfeldgröße ist unzulässig."
-							+ "Bitte geben Sie eine gerade Zahl zwischen 6 und 16 an.");
+							+ "Bitte geben Sie eine gerade Zahl von 6 bis 16 an.");
 
 					continue;
 				}
 			}
-			else if (command.equals("/loadgame") && !prompt.isAtEnd())
+			else if (command != null && command.equals("/loadgame") && !input.isAtEnd())
 			{
 				try
 				{
-					gameManager = GameManager.load(prompt.getNext(), prompt.getNext());
+					gameManager = GameManager.load(input.getNext());
 					break;
 				}
 				catch (IOException e)
@@ -56,7 +61,7 @@ public class Program
 					continue;
 				}
 			}
-			else if (command.equals("/exit"))
+			else if (command != null && command.equals("/exit"))
 			{
 				System.out.println("Das Programm wurde beendet.");
 				System.exit(0);
@@ -64,6 +69,7 @@ public class Program
 			else
 			{
 				System.out.println("Ungültige Eingabe. Bitte versuchen Sie es erneut:");
+				continue;
 			}
 		}
 

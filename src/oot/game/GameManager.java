@@ -43,13 +43,12 @@ public class GameManager implements Serializable
 
 	/**
 	 * Saves the game to file.
-	 * @param path The path where the file should be saved.
-	 * @param fileName The name of the file (excluding file extension).
+	 * @param path The path where the file will be saved, including file name.
 	 * @throws IOException Thrown when the file path could not be found or accessed.
 	 */
-	public void save(String path, String fileName) throws IOException
+	public void save(String path) throws IOException
 	{
-		FileOutputStream ioStream = new FileOutputStream(path + "/" + fileName + ".dat");
+		FileOutputStream ioStream = new FileOutputStream(path);
 		ObjectOutputStream objStream = new ObjectOutputStream(ioStream);
 		objStream.writeObject(this);
 		objStream.close();
@@ -58,14 +57,13 @@ public class GameManager implements Serializable
 
 	/**
 	 * Loads a game from file.
-	 * @param path The path where the file is saved.
-	 * @param fileName The name of the file (excluding file extension).
+	 * @param path The path and name of the saved file.
 	 * @return The loaded game.
 	 * @throws IOException Thrown when the file path could not be found or accessed.
 	 */
-	public static GameManager load(String path, String fileName) throws IOException
+	public static GameManager load(String path) throws IOException
 	{
-		FileInputStream ioStream = new FileInputStream(path + "/" + fileName + ".dat");
+		FileInputStream ioStream = new FileInputStream(path);
 		ObjectInputStream objStream = new ObjectInputStream(ioStream);
 		GameManager manager;
 

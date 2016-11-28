@@ -118,7 +118,7 @@ public class GameAI
 		for (int row = 0; row < innerFieldSize; row++){
 		     for (int collumn = 0; collumn < innerFieldSize; collumn++)
 		     {
-		    	 if(board[row][collumn].getToken() == Token.Cross)
+		    	 if(board[row][collumn].getToken() == Token.CROSS)
 		    	 {
 		    		 // get the number of grabbed fields with a move on the field
 		    		 fieldStrength[row][collumn] = calcOneField(row, collumn);
@@ -167,15 +167,15 @@ public class GameAI
 		// checking position must not leave the board!
 		while(row >= 0 && row <= innerFieldSize + 2 && collumn >= 0 && collumn <= innerFieldSize + 2)
 		{
-			if(board[row][collumn].getToken() == Token.Circle)
+			if(board[row][collumn].getToken() == Token.CIRCLE)
 			{
 				counter++;
 			}
-			else if(board[row][collumn].getToken() == Token.Cross && counter == 0 || board[row][collumn].getToken() == Token.Blocked)
+			else if(board[row][collumn].getToken() == Token.CROSS && counter == 0 || board[row][collumn].getToken() == Token.BLOCKED)
 			{
 				return 0;
 			}
-			else if(board[row][collumn].getToken() == Token.Cross)
+			else if(board[row][collumn].getToken() == Token.CROSS)
 			{
 				return counter;
 			}

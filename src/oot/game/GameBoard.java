@@ -15,12 +15,6 @@ public class GameBoard implements Serializable
 	 */
 	private Cell[][] cells;
 
-
-	public Cell[][] getCells()
-	{
-		return cells;
-	}
-
 	/**
 	 * Creates a new game board object.
 	 * @param size The number of columns and rows for the inner field. Valid numbers must be even and range from 6 to 16.
@@ -79,5 +73,10 @@ public class GameBoard implements Serializable
 			System.out.println(spacer);
 			System.out.println();
 		}
+	}
+
+	public Cell[][] getCells()
+	{
+		return cells;
 	}
 }
