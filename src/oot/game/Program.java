@@ -11,6 +11,8 @@ import java.util.Scanner;
 public class Program
 {
 	private static GameManager gameManager;
+	private static Player player_1;
+	private static Player player_2;
 
 	/**
 	 * Sets up the game and calls the update method of GameManager.
@@ -35,7 +37,7 @@ public class Program
 			{
 				try
 				{
-					gameManager = new GameManager(new GameBoard(Integer.parseInt(input.getNext())));
+					gameManager = new GameManager(new GameBoard(Integer.parseInt(input.getNext())), player_1, player_2);
 					break;
 				}
 				catch (IllegalArgumentException e)

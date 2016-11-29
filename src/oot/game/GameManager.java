@@ -17,14 +17,14 @@ public class GameManager implements Serializable
 {
 	private GameBoard board;
 
-	// TODO: wait for player class to be committed
-	// private Player player_1;
-	// private Player player_2;
+	private Player player_1;
+	private Player player_2;
 
-	// TODO: wait for player class to be committed
-	public GameManager(GameBoard board/*, Player player_1, Player player_2*/)
+	public GameManager(GameBoard board, Player player_1, Player player_2)
 	{
 		this.board = board;
+		this.player_1 = player_1;
+		this.player_2 = player_2;
 	}
 
 	/**

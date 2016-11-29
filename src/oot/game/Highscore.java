@@ -20,7 +20,7 @@ public class Highscore {
 	{
 		FileOutputStream ioStream = new FileOutputStream(path);
 		ObjectOutputStream objStream = new ObjectOutputStream(ioStream);
-		objStream.writeObject(player.getName()+" "+player.getHighscore());
+		objStream.writeObject(player.getName()+" " /* +player.countToken */);
 		objStream.close();
 		ioStream.close();
 	}

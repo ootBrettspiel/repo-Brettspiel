@@ -1,36 +1,44 @@
 package oot.game;
 
-
+/**
+ * Represents a Player.
+ *@author Nico Gensheimer
+ *
+ */
 public class Player {
 
-	/**
-	 *@author Nico Gensheimer
-	 *
-	 */
-
-	private String color;
+	// The players Token (Cross or Circle)
+	private Token token;
+	// The players name.
 	private String name;
-	private int highscore;
 
-	Player(String name, String color){
+	/**
+	 * Constructor to create a player.
+	 * @param name of the player.
+	 * @param token cross or circle.
+	 */
+	Player(String name, Token token){
 		this.name = name;
-		this.color = color;
+		this.token = token;
 	}
 
-	public int getHighscore() {
-		return highscore;
-	}
-	public void setHighscore(int highscore) {
-		this.highscore = highscore;
-	}
-
-	public String getColor() {
-		return color;
+	public Token getToken() {
+		return token;
 	}
 
 
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * Method to count the players tokens on the field.
+	 * @return how many tokens the player has on the field.
+	 */
+	public int countToken()
+	{
+		// TODO: implement
+		return 0;
 	}
 
 
