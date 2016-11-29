@@ -17,6 +17,25 @@ public class Calculator {
 		this.board = board;
 	}
 
+
+	/**
+	 * Calcultes the number of possible moves for a given Token (Circle or Cross).
+	 * @param token
+	 * @return the number of possible moves.
+	 */
+	public int calcPossibleMoves(Token token)
+	{
+		int possibleMoves = 0;
+		int[][] fieldStrength = calcFields(token);
+		for (int row = 0; row < innerFieldSize; row++){
+		     for (int collumn = 0; collumn < innerFieldSize; collumn++)
+		     {
+		    	 if(fieldStrength[row][collumn] != 0)
+		    		 possibleMoves++;
+		     }
+		}
+		return possibleMoves;
+	}
 	/**
 	 * Calculates the strength of every possible move.
 	 * @return an array with the number of capturable fields of every field.
@@ -25,7 +44,6 @@ public class Calculator {
 	{
 		cell = board.getCells();
 		int[][] fieldStrength = new int[innerFieldSize][innerFieldSize];
-		possibleMoves = 0;
 
 		// check every inner field
 		for (int row = 0; row < innerFieldSize; row++){
@@ -35,8 +53,6 @@ public class Calculator {
 		    	 {
 		    		 // get the number of captured fields with a move on the field
 		    		 fieldStrength[row][collumn] = calcOneField(token, row, collumn);
-		    		 if(fieldStrength[row][collumn] != 0)
-		    			 possibleMoves++;
 		    	 }
 		     }
 		}
