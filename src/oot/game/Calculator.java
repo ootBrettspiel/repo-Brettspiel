@@ -1,7 +1,7 @@
 package oot.game;
 
 /**
- * This Class is used for every Kind of game calculation, especially for the GameAI.
+ * This Class is used for every kind of game calculation, especially for the GameAI.
  * @author Christian Coenen
  *
  */
@@ -23,7 +23,7 @@ public class Calculator {
 	 */
 	public int[][] calcFields(Token token)
 	{
-		board.getCells();
+		cell = board.getCells();
 		int[][] fieldStrength = new int[innerFieldSize][innerFieldSize];
 		possibleMoves = 0;
 
@@ -76,7 +76,7 @@ public class Calculator {
 	 */
 	public int calcOnePath(Token token, int row, int collumn, int moveRow, int moveCollumn)
 	{
-		board.getCells();
+		cell = board.getCells();
 		int counter = 0;
 
 		// Case Player/Computer has Token.CROSS
