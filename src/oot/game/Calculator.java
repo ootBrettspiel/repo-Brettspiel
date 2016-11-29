@@ -10,7 +10,6 @@ public class Calculator {
 	GameBoard board;
 	private Cell[][] cell = board.getCells();
 	private int innerFieldSize = cell[0].length-2;
-	private int possibleMoves;
 
 	Calculator(GameBoard board)
 	{
@@ -155,10 +154,6 @@ public class Calculator {
 
 
 	// Getter
-
-	public int getPossibleMoves() {
-		return possibleMoves;
-	}
 
 	public int getInnerFieldSize() {
 		return innerFieldSize;

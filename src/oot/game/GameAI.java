@@ -41,10 +41,10 @@ public class GameAI extends Player
 	private void easyMode(Calculator c) throws NoSuchFieldException
 	{
 		int[][] fieldStrength = c.calcFields(this.getToken());
-		if(c.getPossibleMoves() == 0)
+		if(c.calcPossibleMoves(this.getToken()) == 0)
 			throw new NoSuchFieldException();
 
-		int random = new Random().nextInt(c.getPossibleMoves());
+		int random = new Random().nextInt(c.calcPossibleMoves(this.getToken()));
 		for (int row = 0; row < c.getInnerFieldSize(); row++){
 		     for (int collumn = 0; collumn < c.getInnerFieldSize(); collumn++)
 		     {
@@ -64,7 +64,7 @@ public class GameAI extends Player
 		int[][] fieldStrength = c.calcFields(this.getToken());
 		int max = 0;
 		int[] bestMove = new int[2];
-		if(c.getPossibleMoves() == 0)
+		if(c.calcPossibleMoves(this.getToken()) == 0)
 			throw new NoSuchFieldException();
 
 		for (int row = 0; row < c.getInnerFieldSize(); row++){
