@@ -35,7 +35,7 @@ public class GameBoard implements Serializable
 			{
 				if (i == 0 && j == 0 || i == cells.length - 1 && j == 0 || i == 0 && j == cells.length - 1 || i == cells.length - 1 && j == cells.length - 1)
 				{
-					cells[i][j] = new Cell(Token.valueOf("Blocked"));
+					cells[i][j] = new Cell(Token.BLOCKED);
 				}
 				else
 				{

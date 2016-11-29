@@ -30,17 +30,17 @@ public class Cell implements Serializable
 	 */
 	public void reverse() throws IllegalStateException
 	{
-		if (token == null || token == Token.valueOf("Blocked"))
+		if (token == null || token == Token.BLOCKED)
 		{
 			throw new IllegalStateException("The accessed cell is blocked or contains no token.");
 		}
-		else if (token == Token.valueOf("Circle"))
+		else if (token == Token.CIRCLE)
 		{
-			token = Token.valueOf("Cross");
+			token = Token.CROSS;
 		}
 		else
 		{
-			token = Token.valueOf("Circle");
+			token = Token.CIRCLE;
 		}
 	}
 
