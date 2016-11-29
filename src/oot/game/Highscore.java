@@ -1,4 +1,4 @@
-package src.oot.game;
+package oot.game;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
