@@ -48,11 +48,12 @@ public class GameManager implements Serializable
 	{
 		// TODO: player turns, console dialogue
 		player_1.makeTurn();
-		// player_2.makeTurn();
+		board.draw();
+		player_2.makeTurn();
 		board.draw();
 
 		// TODO: game shutdown logic
-		return true;
+		return false;
 	}
 
 	/**

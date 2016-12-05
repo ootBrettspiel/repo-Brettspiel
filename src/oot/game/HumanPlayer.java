@@ -17,7 +17,7 @@ public class HumanPlayer extends Player
 	@Override
 	public void makeTurn()
 	{
-		System.out.println("Spieler" + name + "ist am Zug:");
+		System.out.println("Spieler " + name + " ist am Zug:");
 
 		Scanner scanner = new Scanner(System.in);
 		int row, column;
@@ -65,7 +65,7 @@ public class HumanPlayer extends Player
 
 			if (calculator.isTheMovePossible(token, row, column))
 			{
-				board.getCells()[row][column].setToken(token);
+				board.getCells()[column][row].setToken(token);
 				break;
 			}
 			else
@@ -74,8 +74,5 @@ public class HumanPlayer extends Player
 				continue;
 			}
 		}
-
-
 	}
-
 }

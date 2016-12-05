@@ -37,7 +37,7 @@ public class Program
 				{
 					GameBoard board = new GameBoard(Integer.parseInt(input.getNext()));
 					Calculator calc = new Calculator(board);
-					gameManager = new GameManager(board, new HumanPlayer("test", Token.CIRCLE, board, calc), new GameAI(Token.CROSS, board, calc, Difficulty.EASY));
+					gameManager = new GameManager(board, new HumanPlayer("test", Token.CIRCLE, board, calc), new HumanPlayer("test2", Token.CROSS, board, calc));
 					break;
 				}
 				catch (IllegalArgumentException e)

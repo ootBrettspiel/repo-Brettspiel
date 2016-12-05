@@ -90,9 +90,9 @@ public class GameBoard implements Serializable
 
 			for (int j = 0; j < cells.length; j++)
 			{
-				if (cells[i][j].getToken() != null)
+				if (cells[j][i].getToken() != null)
 				{
-					System.out.print("  " + cells[i][j].getToken().getSymbol() + "  ");
+					System.out.print("  " + cells[j][i].getToken().getSymbol() + "  ");
 				}
 				else
 				{
