@@ -97,52 +97,33 @@ public class Calculator {
 	{
 		cells = board.getCells();
 		int counter = 0;
+		Token playerToken = token;
+		Token oppToken = null;
 
-		// Case Player/Computer has Token.CROSS
-		if(token == Token.CROSS)
-		{
-			// position to check must not leave the board!
-			while(row >= 0 && row <= innerFieldSize + 2 && collumn >= 0 && collumn <= innerFieldSize + 2)
-			{
-				if(cells[row][collumn].getToken() == Token.CIRCLE)
-				{
-					counter++;
-				}
-				else if(cells[row][collumn].getToken() == Token.CROSS && counter == 0 || cells[row][collumn].getToken() == Token.BLOCKED)
-				{
-					return 0;
-				}
-				else if(cells[row][collumn].getToken() == Token.CROSS)
-				{
-					return counter;
-				}
-				row += moveRow;
-				collumn += moveCollumn;
-			}
-		}
-		// Case Player/Computer has Token.CIRCLE
+		if(playerToken == Token.CIRCLE)
+			oppToken = Token.CROSS;
 		else
-		{
-			while(row >= 0 && row <= innerFieldSize + 2 && collumn >= 0 && collumn <= innerFieldSize + 2)
-			{
-				if(cells[row][collumn].getToken() == Token.CROSS)
-				{
-					counter++;
-				}
-				else if(cells[row][collumn].getToken() == Token.CIRCLE && counter == 0 || cells[row][collumn].getToken() == Token.BLOCKED ||
-						cells[row][collumn].getToken() == null)
-				{
-					return 0;
-				}
-				else if(cells[row][collumn].getToken() == Token.CIRCLE)
-				{
-					return counter;
-				}
-				row += moveRow;
-				collumn += moveCollumn;
-			}
-		}
+			oppToken = Token.CIRCLE;
 
+		// Calculates how many stones can be captured.
+		while(row >= 0 && row <= innerFieldSize + 2 && collumn >= 0 && collumn <= innerFieldSize + 2)
+		{
+			if(cells[row][collumn].getToken() == oppToken)
+			{
+				counter++;
+			}
+			else if(cells[row][collumn].getToken() == playerToken && counter == 0 || cells[row][collumn].getToken() == Token.BLOCKED ||
+					cells[row][collumn].getToken() == null)
+			{
+				return 0;
+			}
+			else if(cells[row][collumn].getToken() == playerToken)
+			{
+				return counter;
+			}
+			row += moveRow;
+			collumn += moveCollumn;
+		}
 		return 0;
 	}
 

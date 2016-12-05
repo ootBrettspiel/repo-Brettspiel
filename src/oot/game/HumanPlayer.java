@@ -65,7 +65,8 @@ public class HumanPlayer extends Player
 
 			if (calculator.isTheMovePossible(token, row, column))
 			{
-				board.getCells()[column][row].setToken(token);
+				// TODO: Christopher check again
+				board.getCells()[row][column].setToken(token);
 				break;
 			}
 			else
