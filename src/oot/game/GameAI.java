@@ -45,12 +45,13 @@ public class GameAI extends Player
 		int[][] fieldStrength = calculator.calcFields(this.getToken());
 
 		int random = new Random().nextInt(calculator.calcPossibleMoves(this.getToken()));
-		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
-		     for (int collumn = 0; collumn < calculator.getInnerFieldSize(); collumn++)
+		for (int row = 0; row < calculator.getFieldSize(); row++){
+		     for (int column = 0; column < calculator.getFieldSize(); column++)
 		     {
-		    	if(fieldStrength[row][collumn] > 0 && random == 0)
+		    	if(fieldStrength[row][column] > 0 && random == 0)
 		    	{
-		    		// TODO: Make a move with actual row and collumn!
+		    		board.getCells()[column][row].setToken(token);
+		    		return;
 		    	}
 		     }
 		}
@@ -65,18 +66,19 @@ public class GameAI extends Player
 		int max = 0;
 		int[] bestMove = new int[2];
 
-		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
-		     for (int collumn = 0; collumn < calculator.getInnerFieldSize(); collumn++)
+		for (int row = 0; row < calculator.getFieldSize(); row++){
+		     for (int column = 0; column < calculator.getFieldSize(); column++)
 		     {
-		    	 if(fieldStrength[row][collumn] > max)
+		    	 if(fieldStrength[row][column] > max)
 		    	 {
 		    		 bestMove[0] = row;
-		    		 bestMove[1] = collumn;
+		    		 bestMove[1] = column;
 		    	 }
 
 		     }
 		}
-		// TODO: Make a move with on position bestMove[0] (Row) and bestMove[1] (Collumn)!
+		board.getCells()[bestMove[1]][bestMove[0]].setToken(token);
+		return;
 	}
 
 	/**
@@ -84,6 +86,57 @@ public class GameAI extends Player
 	 */
 	private void hardMode()
 	{
-		//TODO: implement algorithm
+		int max = 0;
+		int[] bestMove = new int[2];
+		int[][] fieldStrength = calculator.calcFields(this.getToken());
+		int fieldSize = calculator.getFieldSize()+2;
+
+		for (int row = 0; row < fieldSize; row++){
+		     for (int column = 0; column < fieldSize; column++)
+		     {
+		    	 // Add field ratings to the possible moves.
+		    	 if(fieldStrength[row][column] > 0) {
+		    		 if(row == fieldSize -1 && column == fieldSize -2 || row == fieldSize -2 && column == fieldSize -1 ||
+		    			row == -2 && column == 0 || row == fieldSize -1 && column == 1 ||
+		    			row == 0 && column == fieldSize -2 || row == 1 && column == fieldSize -1 ||
+		    			row == 0 && column == 1 || row == 1 && column == 0)
+		    		 {
+		    			fieldStrength[row][column] += 9;
+		    		 }
+		    		 else if(row == 0 || row == fieldSize -1 || column == 0 || column == fieldSize -1)
+		    		 {
+		    			 fieldStrength[row][column] += 7;
+		    		 }
+		    		 else if(row == fieldSize -2 && column == fieldSize -2 || row == 1 && column == fieldSize -2 ||
+		    				 row == fieldSize -2 && column == 1 || row == 1 && column == 1)
+		    		 {
+		    			 fieldStrength[row][column] += 0;
+		    		 }
+		    		 else if(row == 1 || row == fieldSize -2 || column == 1 || column == fieldSize -2)
+		    		 {
+		    			 fieldStrength[row][column] += 2;
+		    		 }
+		    		 else
+		    		 {
+		    			 fieldStrength[row][column] += 4;
+		    		 }
+		    	 }
+		     }
+		}
+
+		// Calculation to find the best move.
+		for (int row = 0; row < calculator.getFieldSize(); row++){
+		     for (int column = 0; column < calculator.getFieldSize(); column++)
+		     {
+		    	 if(fieldStrength[row][column] > max)
+		    	 {
+		    		 bestMove[0] = row;
+		    		 bestMove[1] = column;
+		    	 }
+
+		     }
+		}
+		board.getCells()[bestMove[1]][bestMove[0]].setToken(token);
+		return;
 	}
 }

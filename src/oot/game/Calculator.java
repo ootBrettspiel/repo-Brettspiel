@@ -9,13 +9,13 @@ public class Calculator {
 
 	GameBoard board;
 	private Cell[][] cells;
-	private int innerFieldSize;
+	private int fieldSize;
 
 	Calculator(GameBoard board)
 	{
 		this.board = board;
 		cells = board.getCells();
-		innerFieldSize = cells[0].length - 2;
+		fieldSize = cells[0].length;
 	}
 
 
@@ -28,10 +28,10 @@ public class Calculator {
 	{
 		int possibleMoves = 0;
 		int[][] fieldStrength = calcFields(token);
-		for (int row = 0; row < innerFieldSize; row++){
-		     for (int collumn = 0; collumn < innerFieldSize; collumn++)
+		for (int row = 0; row < fieldSize; row++){
+		     for (int column = 0; column < fieldSize; column++)
 		     {
-		    	 if(fieldStrength[row][collumn] != 0)
+		    	 if(fieldStrength[row][column] != 0)
 		    		 possibleMoves++;
 		     }
 		}
@@ -44,16 +44,16 @@ public class Calculator {
 	public int[][] calcFields(Token token)
 	{
 		cells = board.getCells();
-		int[][] fieldStrength = new int[innerFieldSize][innerFieldSize];
+		int[][] fieldStrength = new int[fieldSize][fieldSize];
 
-		// check every inner field
-		for (int row = 0; row < innerFieldSize; row++){
-		     for (int collumn = 0; collumn < innerFieldSize; collumn++)
+		// check every field
+		for (int row = 0; row < fieldSize; row++){
+		     for (int column = 0; column < fieldSize; column++)
 		     {
-		    	 if(cells[row][collumn].getToken() == null)
+		    	 if(cells[row][column].getToken() == null)
 		    	 {
 		    		 // get the number of captured fields with a move on the field
-		    		 fieldStrength[row][collumn] = calcOneField(token, row, collumn);
+		    		 fieldStrength[row][column] = calcOneField(token, row, column);
 		    	 }
 		     }
 		}
@@ -63,24 +63,25 @@ public class Calculator {
 	/**
 	 * Calculates the strength of a possible move.
 	 * @param row to calculate
-	 * @param collumn to calculate
+	 * @param column to calculate
 	 * @return number of capturable fields
 	 */
-	public int calcOneField(Token token, int row, int collumn)
+	public int calcOneField(Token token, int row, int column)
 	{
-		if(cells[row][collumn].getToken() == Token.BLOCKED)
+		if(cells[row][column].getToken() == Token.BLOCKED)
 			return 0;
+
 		int captureValue = 0;
 		/*
-		 * Checks how many fields can be captures for every direction.
+		 * Checks how many fields can be captured for every direction.
 		 */
-		captureValue += calcOnePath(token, row-1, collumn-1, -1, -1); // Top, left
-		captureValue += calcOnePath(token, row-1, collumn, -1, 0); // Top, middle
-		captureValue += calcOnePath(token, row-1, collumn+1, -1, 1); // Top, right
-		captureValue += calcOnePath(token, row, collumn-1, 0, -1); // Middle, left
-		captureValue += calcOnePath(token, row, collumn+1, 0, 1); // Middle, right
-		captureValue += calcOnePath(token, row+1, collumn-1, 1, -1); // Bottom, left
-		captureValue += calcOnePath(token, row+1, collumn+1, 1, 1); // Bottom, right
+		captureValue += calcOnePath(token, row-1, column-1, -1, -1); // Top, left
+		captureValue += calcOnePath(token, row-1, column, -1, 0); // Top, middle
+		captureValue += calcOnePath(token, row-1, column+1, -1, 1); // Top, right
+		captureValue += calcOnePath(token, row, column-1, 0, -1); // Middle, left
+		captureValue += calcOnePath(token, row, column+1, 0, 1); // Middle, right
+		captureValue += calcOnePath(token, row+1, column-1, 1, -1); // Bottom, left
+		captureValue += calcOnePath(token, row+1, column+1, 1, 1); // Bottom, right
 
 		return captureValue;
 	}
@@ -88,12 +89,12 @@ public class Calculator {
 	/**
 	 * Checks how many fields can be captures by a given direction of a given field.
 	 * @param row to calculate
-	 * @param collumn to calculate
+	 * @param column to calculate
 	 * @param moveRow direction to search
 	 * @param moveCollumn direction to search
 	 * @return number of capturable fields for the direction
 	 */
-	public int calcOnePath(Token token, int row, int collumn, int moveRow, int moveCollumn)
+	public int calcOnePath(Token token, int row, int column, int moveRow, int moveColumn)
 	{
 		cells = board.getCells();
 		int counter = 0;
@@ -106,23 +107,23 @@ public class Calculator {
 			oppToken = Token.CIRCLE;
 
 		// Calculates how many stones can be captured.
-		while(row >= 0 && row <= innerFieldSize + 2 && collumn >= 0 && collumn <= innerFieldSize + 2)
+		while(row >= 0 && row <= fieldSize && column >= 0 && column <= fieldSize)
 		{
-			if(cells[row][collumn].getToken() == oppToken)
+			if(cells[row][column].getToken() == oppToken)
 			{
 				counter++;
 			}
-			else if(cells[row][collumn].getToken() == playerToken && counter == 0 || cells[row][collumn].getToken() == Token.BLOCKED ||
-					cells[row][collumn].getToken() == null)
+			else if(cells[row][column].getToken() == playerToken && counter == 0 || cells[row][column].getToken() == Token.BLOCKED ||
+					cells[row][column].getToken() == null)
 			{
 				return 0;
 			}
-			else if(cells[row][collumn].getToken() == playerToken)
+			else if(cells[row][column].getToken() == playerToken)
 			{
 				return counter;
 			}
 			row += moveRow;
-			collumn += moveCollumn;
+			column += moveColumn;
 		}
 		return 0;
 	}
@@ -141,7 +142,7 @@ public class Calculator {
 
 	// Getter
 
-	public int getInnerFieldSize() {
-		return innerFieldSize;
+	public int getFieldSize() {
+		return fieldSize;
 	}
 }
