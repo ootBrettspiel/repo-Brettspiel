@@ -68,6 +68,8 @@ public class Calculator {
 	 */
 	public int calcOneField(Token token, int row, int collumn)
 	{
+		if(cells[row][collumn].getToken() == Token.BLOCKED)
+			return 0;
 		int captureValue = 0;
 		/*
 		 * Checks how many fields can be captures for every direction.
@@ -127,7 +129,8 @@ public class Calculator {
 				{
 					counter++;
 				}
-				else if(cells[row][collumn].getToken() == Token.CIRCLE && counter == 0 || cells[row][collumn].getToken() == Token.BLOCKED)
+				else if(cells[row][collumn].getToken() == Token.CIRCLE && counter == 0 || cells[row][collumn].getToken() == Token.BLOCKED ||
+						cells[row][collumn].getToken() == null)
 				{
 					return 0;
 				}

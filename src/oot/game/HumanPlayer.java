@@ -43,7 +43,7 @@ public class HumanPlayer extends Player
 				{
 					try
 					{
-						row = Integer.parseInt(input.getNext());
+						row = Integer.parseInt(input.getNext())-1;
 					}
 					catch (NumberFormatException e)
 					{
@@ -65,7 +65,7 @@ public class HumanPlayer extends Player
 
 			if (calculator.isTheMovePossible(token, row, column))
 			{
-				board.getCells()[column][row].setToken(token);
+				board.getCells()[row][column].setToken(token);
 				break;
 			}
 			else
