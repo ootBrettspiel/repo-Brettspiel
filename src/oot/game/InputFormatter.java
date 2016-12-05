@@ -47,7 +47,7 @@ public class InputFormatter
 	 */
 	public String getNext()
 	{
-		if (arguments == null || pos >= arguments.length)
+		if (isAtEnd())
 		{
 			return null;
 		}

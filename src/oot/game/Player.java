@@ -5,30 +5,28 @@ package oot.game;
  *@author Nico Gensheimer
  *
  */
-public class Player {
-
+public abstract class Player
+{
 	// The players Token (Cross or Circle)
-	private Token token;
+	protected Token token;
 	// The players name.
-	private String name;
+	protected String name;
+
+	protected Calculator calculator;
+
+	protected GameBoard board;
 
 	/**
 	 * Constructor to create a player.
 	 * @param name of the player.
 	 * @param token cross or circle.
 	 */
-	Player(String name, Token token){
+	Player(String name, Token token, GameBoard board, Calculator calculator)
+	{
 		this.name = name;
 		this.token = token;
-	}
-
-	public Token getToken() {
-		return token;
-	}
-
-
-	public String getName() {
-		return name;
+		this.board = board;
+		this.calculator = calculator;
 	}
 
 	/**
@@ -41,5 +39,19 @@ public class Player {
 		return 0;
 	}
 
+	/**
+	 * Gives this palyer the opportunity to make a turn.
+	 * @author Christopher Rotter
+	 */
+	public abstract void makeTurn();
 
+	public Token getToken()
+	{
+		return token;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
 }

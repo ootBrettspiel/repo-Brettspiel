@@ -8,12 +8,14 @@ package oot.game;
 public class Calculator {
 
 	GameBoard board;
-	private Cell[][] cell = board.getCells();
-	private int innerFieldSize = cell[0].length-2;
+	private Cell[][] cells;
+	private int innerFieldSize;
 
 	Calculator(GameBoard board)
 	{
 		this.board = board;
+		cells = board.getCells();
+		innerFieldSize = cells[0].length - 2;
 	}
 
 
@@ -41,14 +43,14 @@ public class Calculator {
 	 */
 	public int[][] calcFields(Token token)
 	{
-		cell = board.getCells();
+		cells = board.getCells();
 		int[][] fieldStrength = new int[innerFieldSize][innerFieldSize];
 
 		// check every inner field
 		for (int row = 0; row < innerFieldSize; row++){
 		     for (int collumn = 0; collumn < innerFieldSize; collumn++)
 		     {
-		    	 if(cell[row][collumn].getToken() == null)
+		    	 if(cells[row][collumn].getToken() == null)
 		    	 {
 		    		 // get the number of captured fields with a move on the field
 		    		 fieldStrength[row][collumn] = calcOneField(token, row, collumn);
@@ -91,7 +93,7 @@ public class Calculator {
 	 */
 	public int calcOnePath(Token token, int row, int collumn, int moveRow, int moveCollumn)
 	{
-		cell = board.getCells();
+		cells = board.getCells();
 		int counter = 0;
 
 		// Case Player/Computer has Token.CROSS
@@ -100,15 +102,15 @@ public class Calculator {
 			// position to check must not leave the board!
 			while(row >= 0 && row <= innerFieldSize + 2 && collumn >= 0 && collumn <= innerFieldSize + 2)
 			{
-				if(cell[row][collumn].getToken() == Token.CIRCLE)
+				if(cells[row][collumn].getToken() == Token.CIRCLE)
 				{
 					counter++;
 				}
-				else if(cell[row][collumn].getToken() == Token.CROSS && counter == 0 || cell[row][collumn].getToken() == Token.BLOCKED)
+				else if(cells[row][collumn].getToken() == Token.CROSS && counter == 0 || cells[row][collumn].getToken() == Token.BLOCKED)
 				{
 					return 0;
 				}
-				else if(cell[row][collumn].getToken() == Token.CROSS)
+				else if(cells[row][collumn].getToken() == Token.CROSS)
 				{
 					return counter;
 				}
@@ -121,15 +123,15 @@ public class Calculator {
 		{
 			while(row >= 0 && row <= innerFieldSize + 2 && collumn >= 0 && collumn <= innerFieldSize + 2)
 			{
-				if(cell[row][collumn].getToken() == Token.CROSS)
+				if(cells[row][collumn].getToken() == Token.CROSS)
 				{
 					counter++;
 				}
-				else if(cell[row][collumn].getToken() == Token.CIRCLE && counter == 0 || cell[row][collumn].getToken() == Token.BLOCKED)
+				else if(cells[row][collumn].getToken() == Token.CIRCLE && counter == 0 || cells[row][collumn].getToken() == Token.BLOCKED)
 				{
 					return 0;
 				}
-				else if(cell[row][collumn].getToken() == Token.CIRCLE)
+				else if(cells[row][collumn].getToken() == Token.CIRCLE)
 				{
 					return counter;
 				}
@@ -144,12 +146,12 @@ public class Calculator {
 	/**
 	 * Checks if a given move is possible or not.
 	 * @param row
-	 * @param collumn
+	 * @param column
 	 * @return true if the move is possible, false if not.
 	 */
-	public boolean isTheMovePossible(Token token, int row, int collumn)
+	public boolean isTheMovePossible(Token token, int row, int column)
 	{
-		return calcOneField(token, row, collumn) == 0 ? false : true;
+		return calcOneField(token, row, column) == 0 ? false : true;
 	}
 
 

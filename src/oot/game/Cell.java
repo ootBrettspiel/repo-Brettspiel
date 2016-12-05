@@ -48,4 +48,21 @@ public class Cell implements Serializable
 	{
 		return token;
 	}
+
+	/**
+	 * Sets the token of this cell to the given token, unless there is already a token in this cell.
+	 * @param token The token to be set.
+	 * @throws IllegalStateException Thrown when the cell already contains a token.
+	 */
+	public void setToken(Token token) throws IllegalStateException
+	{
+		if (this.token == null)
+		{
+			this.token = token;
+		}
+		else
+		{
+			throw new IllegalStateException("The accessed cell is blocked or already contains a token.");
+		}
+	}
 }

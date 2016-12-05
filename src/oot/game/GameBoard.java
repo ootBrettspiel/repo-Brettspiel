@@ -37,6 +37,14 @@ public class GameBoard implements Serializable
 				{
 					cells[i][j] = new Cell(Token.BLOCKED);
 				}
+				else if (i == cells.length / 2 - 1 && j == cells.length / 2 - 1 || i == cells.length / 2 && j == cells.length / 2)
+				{
+					cells[i][j] = new Cell(Token.CIRCLE);
+				}
+				else if (i == cells.length / 2 && j == cells.length / 2 - 1 || i == cells.length / 2 - 1 && j == cells.length / 2)
+				{
+					cells[i][j] = new Cell(Token.CROSS);
+				}
 				else
 				{
 					cells[i][j] = new Cell(null);
@@ -50,9 +58,35 @@ public class GameBoard implements Serializable
 	 */
 	public void draw()
 	{
+		String space = "______";
+		String line = "     _";
+		char column = 'A';
+		int row = 1;
+
+		System.out.print("   ");
+
 		for (int i = 0; i < cells.length; i++)
 		{
-			String spacer = "";
+			System.out.print("     " + column++);
+			line = line.concat(space);
+		}
+
+		System.out.println();
+		System.out.println(line);
+		System.out.println();
+
+		for (int i = 0; i < cells.length; i++)
+		{
+			if (row < 10)
+			{
+				System.out.print("  " + row++ + "  ");
+			}
+			else
+			{
+				System.out.print(" " + row++ + "  ");
+			}
+
+			System.out.print("|");
 
 			for (int j = 0; j < cells.length; j++)
 			{
@@ -66,11 +100,10 @@ public class GameBoard implements Serializable
 				}
 
 				System.out.print("|");
-				spacer += "______";
 			}
 
 			System.out.println();
-			System.out.println(spacer);
+			System.out.println(line);
 			System.out.println();
 		}
 	}

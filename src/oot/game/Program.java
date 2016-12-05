@@ -11,8 +11,6 @@ import java.util.Scanner;
 public class Program
 {
 	private static GameManager gameManager;
-	private static Player player_1;
-	private static Player player_2;
 
 	/**
 	 * Sets up the game and calls the update method of GameManager.
@@ -37,7 +35,9 @@ public class Program
 			{
 				try
 				{
-					gameManager = new GameManager(new GameBoard(Integer.parseInt(input.getNext())), player_1, player_2);
+					GameBoard board = new GameBoard(Integer.parseInt(input.getNext()));
+					Calculator calc = new Calculator(board);
+					gameManager = new GameManager(board, new HumanPlayer("test", Token.CIRCLE, board, calc), new GameAI(Token.CROSS, board, calc, Difficulty.EASY));
 					break;
 				}
 				catch (IllegalArgumentException e)
@@ -75,12 +75,6 @@ public class Program
 			}
 		}
 
-		while (true)
-		{
-			if (gameManager.update())
-			{
-				break;
-			}
-		}
+		gameManager.start();
 	}
 }

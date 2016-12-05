@@ -27,14 +27,28 @@ public class GameManager implements Serializable
 		this.player_2 = player_2;
 	}
 
+	public boolean start()
+	{
+		board.draw();
+
+		while (true)
+		{
+			if (update())
+			{
+				return true;
+			}
+		}
+	}
+
 	/**
 	 * Gives every player the opportunity to make a move and draws the game board.
 	 * @return True if the game has ended.
 	 */
-	public boolean update()
+	private boolean update()
 	{
 		// TODO: player turns, console dialogue
-
+		player_1.makeTurn();
+		// player_2.makeTurn();
 		board.draw();
 
 		// TODO: game shutdown logic
