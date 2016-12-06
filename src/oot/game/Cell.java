@@ -54,7 +54,7 @@ public class Cell implements Serializable
 	 * @param token The token to be set.
 	 * @throws IllegalStateException Thrown when the cell already contains a token.
 	 */
-	public void setToken(Token token) throws IllegalStateException
+	protected void setToken(Token token) throws IllegalStateException
 	{
 		if (this.token == null)
 		{

@@ -50,7 +50,7 @@ public class GameAI extends Player
 		     {
 		    	if(fieldStrength[row][column] > 0 && random == 0)
 		    	{
-		    		board.getCells()[column][row].setToken(token);
+		    		board.setToken(token, column, row);
 		    		return;
 		    	}
 		     }
@@ -77,7 +77,7 @@ public class GameAI extends Player
 
 		     }
 		}
-		board.getCells()[bestMove[1]][bestMove[0]].setToken(token);
+		board.setToken(token, bestMove[1], bestMove[0]);
 		return;
 	}
 
@@ -136,7 +136,7 @@ public class GameAI extends Player
 
 		     }
 		}
-		board.getCells()[bestMove[1]][bestMove[0]].setToken(token);
+		board.setToken(token, bestMove[1], bestMove[0]);
 		return;
 	}
 }

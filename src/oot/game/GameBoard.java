@@ -1,5 +1,6 @@
 package oot.game;
 
+import java.awt.Point;
 import java.io.Serializable;
 
 /**
@@ -14,6 +15,8 @@ public class GameBoard implements Serializable
 	 * The cells that make up the board.
 	 */
 	private Cell[][] cells;
+
+	private Calculator calculator;
 
 	/**
 	 * Creates a new game board object.
@@ -111,5 +114,29 @@ public class GameBoard implements Serializable
 	public Cell[][] getCells()
 	{
 		return cells;
+	}
+
+	/**
+	 * Places a token at the given position and reverses all enemy tokens that should be reversed.
+	 * @param token The token that will be placed.
+	 * @param column The x-index of the field.
+	 * @param rowThe y-index of the field.
+	 */
+	public void setToken(Token token, int column, int row)
+	{
+		Point[] reversed = calculator.calculateReversedFields(token, column, row);
+
+		cells[column][row].setToken(token);
+
+		for (int i = 0; i < reversed.length; i++)
+		{
+			cells[reversed[i].x][reversed[i].y].reverse();
+		}
+	}
+
+	//TODO: remove circle dependency
+	public void setCalculator(Calculator calculator)
+	{
+		this.calculator = calculator;
 	}
 }

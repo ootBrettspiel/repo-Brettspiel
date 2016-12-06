@@ -1,5 +1,8 @@
 package oot.game;
 
+import java.awt.Point;
+import java.util.LinkedList;
+
 /**
  * This Class is used for every kind of game calculation, especially for the GameAI.
  * @author Christian Coenen
@@ -75,13 +78,13 @@ public class Calculator {
 		/*
 		 * Checks how many fields can be captured for every direction.
 		 */
-		captureValue += calcOnePath(token, row-1, column-1, -1, -1); // Top, left
-		captureValue += calcOnePath(token, row-1, column, -1, 0); // Top, middle
-		captureValue += calcOnePath(token, row-1, column+1, -1, 1); // Top, right
-		captureValue += calcOnePath(token, row, column-1, 0, -1); // Middle, left
-		captureValue += calcOnePath(token, row, column+1, 0, 1); // Middle, right
-		captureValue += calcOnePath(token, row+1, column-1, 1, -1); // Bottom, left
-		captureValue += calcOnePath(token, row+1, column+1, 1, 1); // Bottom, right
+		captureValue += calcOnePath(token, column-1, row-1, -1, -1); // Top, left
+		captureValue += calcOnePath(token, column-1, row, -1, 0); // Top, middle
+		captureValue += calcOnePath(token, column-1, row+1, -1, 1); // Top, right
+		captureValue += calcOnePath(token, column, row-1, 0, -1); // Middle, left
+		captureValue += calcOnePath(token, column, row+1, 0, 1); // Middle, right
+		captureValue += calcOnePath(token, column+1, row-1, 1, -1); // Bottom, left
+		captureValue += calcOnePath(token, column+1, row+1, 1, 1); // Bottom, right
 
 		return captureValue;
 	}
@@ -94,7 +97,7 @@ public class Calculator {
 	 * @param moveCollumn direction to search
 	 * @return number of capturable fields for the direction
 	 */
-	public int calcOnePath(Token token, int row, int column, int moveRow, int moveColumn)
+	public int calcOnePath(Token token, int column, int row, int moveColumn, int moveRow)
 	{
 		cells = board.getCells();
 		int counter = 0;
@@ -139,6 +142,47 @@ public class Calculator {
 		return calcOneField(token, row, column) == 0 ? false : true;
 	}
 
+	/**
+	 * Calculates all field indexes where a token will be reversed from setting a token at the given position.
+	 * @param token The token that should be placed.
+	 * @param column The x-index of the field.
+	 * @param row The y-index of the field.
+	 * @return An array of points that represent the coordinates of reversable tokens.
+	 * @author Christopher Rotter
+	 */
+	public Point[] calculateReversedFields(Token token, int column, int row)
+	{
+		LinkedList<Point> pointList = new LinkedList<>();
+		int directionX = -1;
+		int directionY = -1;
+
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 1; j <= calcOnePath(token, column + directionX, row + directionY, directionX, directionY); j++)
+			{
+				pointList.add(new Point(column + directionX * j, row + directionY * j));
+			}
+
+			if (i < 2)
+			{
+				directionX++;
+			}
+			else if (i < 4)
+			{
+				directionY++;
+			}
+			else if (i < 6)
+			{
+				directionX--;
+			}
+			else
+			{
+				directionY--;
+			}
+		}
+
+		return pointList.toArray(new Point[pointList.size()]);
+	}
 
 	// Getter
 
