@@ -48,7 +48,7 @@ public class GameAI extends Player
 		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
 		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
 		     {
-		    	if(fieldStrength[row][column] > 0 && random == 0)
+		    	if(fieldStrength[column][row] > 0 && random == 0)
 		    	{
 		    		board.setToken(token, column, row);
 		    		return;
@@ -69,7 +69,7 @@ public class GameAI extends Player
 		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
 		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
 		     {
-		    	 if(fieldStrength[row][column] > max)
+		    	 if(fieldStrength[column][row] > max)
 		    	 {
 		    		 bestMove[0] = row;
 		    		 bestMove[1] = column;
@@ -95,7 +95,7 @@ public class GameAI extends Player
 		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
 		     {
 		    	 // Add field ratings to the possible moves.
-		    	 if(fieldStrength[row][column] > 0) {
+		    	 if(fieldStrength[column][row] > 0) {
 		    		 if(row == fieldSize -1 && column == fieldSize -1 || row == fieldSize -1 && column == 1 ||
 		    			row == 1 && column == fieldSize -1 || row == 1 && column == 1 ||
 		    			row == fieldSize -1 && column == fieldSize -2 || row == fieldSize -2 && column == fieldSize -1 ||
@@ -130,15 +130,15 @@ public class GameAI extends Player
 		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
 		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
 		     {
-		    	 if(fieldStrength[row][column] > max)
+		    	 if(fieldStrength[column][row] > max)
 		    	 {
-		    		 bestMove[0] = row;
-		    		 bestMove[1] = column;
+		    		 bestMove[0] = column;
+		    		 bestMove[1] = row;
 		    	 }
 
 		     }
 		}
-		board.setToken(token, bestMove[1], bestMove[0]);
+		board.setToken(token, bestMove[0], bestMove[1]);
 		return;
 	}
 }

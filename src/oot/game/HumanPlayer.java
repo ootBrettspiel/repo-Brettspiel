@@ -63,7 +63,7 @@ public class HumanPlayer extends Player
 				continue;
 			}
 
-			if (calculator.isTheMovePossible(token, row, column))
+			if (calculator.isTheMovePossible(token, column, row))
 			{
 				board.setToken(token, column, row);
 				break;

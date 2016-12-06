@@ -13,12 +13,14 @@ public class Calculator {
 	GameBoard board;
 	private Cell[][] cells;
 	private int innerFieldSize;
+	private int fieldSize;
 
 	Calculator(GameBoard board)
 	{
 		this.board = board;
 		cells = board.getCells();
 		innerFieldSize = cells[0].length-2;
+		fieldSize = innerFieldSize+2;
 	}
 
 
@@ -56,7 +58,7 @@ public class Calculator {
 		    	 if(cells[column][row].getToken() == null)
 		    	 {
 		    		 // get the number of captured fields with a move on the field
-		    		 fieldStrength[column][row] = calcOneField(token, row, column);
+		    		 fieldStrength[column][row] = calcOneField(token, column, row);
 		    	 }
 		     }
 		}
@@ -69,7 +71,7 @@ public class Calculator {
 	 * @param column to calculate
 	 * @return number of capturable fields
 	 */
-	public int calcOneField(Token token, int row, int column)
+	public int calcOneField(Token token, int column, int row)
 	{
 		if(row >= cells[1].length || column >= cells[0].length || row == 0 || column == 0 || cells[column][row].getToken() == Token.BLOCKED)
 			return 0;
@@ -111,7 +113,7 @@ public class Calculator {
 			oppToken = Token.CIRCLE;
 
 		// Calculates how many stones can be captured.
-		while(row >= 0 && row < innerFieldSize && column >= 0 && column < innerFieldSize)
+		while(row >= 0 && row < fieldSize && column >= 0 && column < fieldSize)
 		{
 			if(cells[column][row].getToken() == oppToken)
 			{
@@ -138,9 +140,9 @@ public class Calculator {
 	 * @param column
 	 * @return true if the move is possible, false if not.
 	 */
-	public boolean isTheMovePossible(Token token, int row, int column)
+	public boolean isTheMovePossible(Token token, int column, int row)
 	{
-		return calcOneField(token, row, column) == 0 ? false : true;
+		return calcOneField(token, column, row) == 0 ? false : true;
 	}
 
 	/**
