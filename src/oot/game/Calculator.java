@@ -107,7 +107,7 @@ public class Calculator {
 			oppToken = Token.CIRCLE;
 
 		// Calculates how many stones can be captured.
-		while(row >= 0 && row <= fieldSize && column >= 0 && column <= fieldSize)
+		while(row >= 0 && row < fieldSize && column >= 0 && column < fieldSize)
 		{
 			if(cells[column][row].getToken() == oppToken)
 			{
