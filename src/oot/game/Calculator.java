@@ -68,7 +68,7 @@ public class Calculator {
 	 */
 	public int calcOneField(Token token, int row, int column)
 	{
-		if(cells[column][row].getToken() == Token.BLOCKED)
+		if(row >= cells[1].length || column >= cells[0].length || row == 0 || column == 0 || cells[column][row].getToken() == Token.BLOCKED)
 			return 0;
 
 		int captureValue = 0;
@@ -81,6 +81,7 @@ public class Calculator {
 		captureValue += calcOnePath(token, row, column-1, 0, -1); // Middle, left
 		captureValue += calcOnePath(token, row, column+1, 0, 1); // Middle, right
 		captureValue += calcOnePath(token, row+1, column-1, 1, -1); // Bottom, left
+		captureValue += calcOnePath(token, row+1, column, 1, 0); // Bottom, middle
 		captureValue += calcOnePath(token, row+1, column+1, 1, 1); // Bottom, right
 
 		return captureValue;
