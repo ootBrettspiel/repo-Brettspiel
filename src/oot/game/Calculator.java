@@ -31,7 +31,7 @@ public class Calculator {
 		for (int row = 0; row < fieldSize; row++){
 		     for (int column = 0; column < fieldSize; column++)
 		     {
-		    	 if(fieldStrength[row][column] != 0)
+		    	 if(fieldStrength[column][row] != 0)
 		    		 possibleMoves++;
 		     }
 		}
@@ -50,10 +50,10 @@ public class Calculator {
 		for (int row = 0; row < fieldSize; row++){
 		     for (int column = 0; column < fieldSize; column++)
 		     {
-		    	 if(cells[row][column].getToken() == null)
+		    	 if(cells[column][row].getToken() == null)
 		    	 {
 		    		 // get the number of captured fields with a move on the field
-		    		 fieldStrength[row][column] = calcOneField(token, row, column);
+		    		 fieldStrength[column][row] = calcOneField(token, row, column);
 		    	 }
 		     }
 		}
@@ -68,7 +68,7 @@ public class Calculator {
 	 */
 	public int calcOneField(Token token, int row, int column)
 	{
-		if(cells[row][column].getToken() == Token.BLOCKED)
+		if(cells[column][row].getToken() == Token.BLOCKED)
 			return 0;
 
 		int captureValue = 0;
@@ -109,16 +109,16 @@ public class Calculator {
 		// Calculates how many stones can be captured.
 		while(row >= 0 && row <= fieldSize && column >= 0 && column <= fieldSize)
 		{
-			if(cells[row][column].getToken() == oppToken)
+			if(cells[column][row].getToken() == oppToken)
 			{
 				counter++;
 			}
-			else if(cells[row][column].getToken() == playerToken && counter == 0 || cells[row][column].getToken() == Token.BLOCKED ||
-					cells[row][column].getToken() == null)
+			else if(cells[column][row].getToken() == playerToken && counter == 0 || cells[column][row].getToken() == Token.BLOCKED ||
+					cells[column][row].getToken() == null)
 			{
 				return 0;
 			}
-			else if(cells[row][column].getToken() == playerToken)
+			else if(cells[column][row].getToken() == playerToken)
 			{
 				return counter;
 			}
