@@ -9,13 +9,13 @@ public class Calculator {
 
 	GameBoard board;
 	private Cell[][] cells;
-	private int fieldSize;
+	private int innerFieldSize;
 
 	Calculator(GameBoard board)
 	{
 		this.board = board;
 		cells = board.getCells();
-		fieldSize = cells[0].length;
+		innerFieldSize = cells[0].length-2;
 	}
 
 
@@ -28,8 +28,8 @@ public class Calculator {
 	{
 		int possibleMoves = 0;
 		int[][] fieldStrength = calcFields(token);
-		for (int row = 0; row < fieldSize; row++){
-		     for (int column = 0; column < fieldSize; column++)
+		for (int row = 0; row < innerFieldSize; row++){
+		     for (int column = 0; column < innerFieldSize; column++)
 		     {
 		    	 if(fieldStrength[column][row] != 0)
 		    		 possibleMoves++;
@@ -44,11 +44,11 @@ public class Calculator {
 	public int[][] calcFields(Token token)
 	{
 		cells = board.getCells();
-		int[][] fieldStrength = new int[fieldSize][fieldSize];
+		int[][] fieldStrength = new int[innerFieldSize][innerFieldSize];
 
 		// check every field
-		for (int row = 0; row < fieldSize; row++){
-		     for (int column = 0; column < fieldSize; column++)
+		for (int row = 0; row < innerFieldSize; row++){
+		     for (int column = 0; column < innerFieldSize; column++)
 		     {
 		    	 if(cells[column][row].getToken() == null)
 		    	 {
@@ -107,7 +107,7 @@ public class Calculator {
 			oppToken = Token.CIRCLE;
 
 		// Calculates how many stones can be captured.
-		while(row >= 0 && row < fieldSize && column >= 0 && column < fieldSize)
+		while(row >= 0 && row < innerFieldSize && column >= 0 && column < innerFieldSize)
 		{
 			if(cells[column][row].getToken() == oppToken)
 			{
@@ -142,7 +142,7 @@ public class Calculator {
 
 	// Getter
 
-	public int getFieldSize() {
-		return fieldSize;
+	public int getInnerFieldSize() {
+		return innerFieldSize;
 	}
 }

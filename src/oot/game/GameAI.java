@@ -45,8 +45,8 @@ public class GameAI extends Player
 		int[][] fieldStrength = calculator.calcFields(this.getToken());
 
 		int random = new Random().nextInt(calculator.calcPossibleMoves(this.getToken()));
-		for (int row = 0; row < calculator.getFieldSize(); row++){
-		     for (int column = 0; column < calculator.getFieldSize(); column++)
+		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
 		     {
 		    	if(fieldStrength[row][column] > 0 && random == 0)
 		    	{
@@ -66,8 +66,8 @@ public class GameAI extends Player
 		int max = 0;
 		int[] bestMove = new int[2];
 
-		for (int row = 0; row < calculator.getFieldSize(); row++){
-		     for (int column = 0; column < calculator.getFieldSize(); column++)
+		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
 		     {
 		    	 if(fieldStrength[row][column] > max)
 		    	 {
@@ -89,30 +89,32 @@ public class GameAI extends Player
 		int max = 0;
 		int[] bestMove = new int[2];
 		int[][] fieldStrength = calculator.calcFields(this.getToken());
-		int fieldSize = calculator.getFieldSize()+2;
+		int fieldSize = calculator.getInnerFieldSize()+1;
 
-		for (int row = 0; row < fieldSize; row++){
-		     for (int column = 0; column < fieldSize; column++)
+		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
 		     {
 		    	 // Add field ratings to the possible moves.
 		    	 if(fieldStrength[row][column] > 0) {
-		    		 if(row == fieldSize -1 && column == fieldSize -2 || row == fieldSize -2 && column == fieldSize -1 ||
+		    		 if(row == fieldSize -1 && column == fieldSize -1 || row == fieldSize -1 && column == 1 ||
+		    			row == 1 && column == fieldSize -1 || row == 1 && column == 1 ||
+		    			row == fieldSize -1 && column == fieldSize -2 || row == fieldSize -2 && column == fieldSize -1 ||
 		    			row == -2 && column == 0 || row == fieldSize -1 && column == 1 ||
 		    			row == 0 && column == fieldSize -2 || row == 1 && column == fieldSize -1 ||
 		    			row == 0 && column == 1 || row == 1 && column == 0)
 		    		 {
 		    			fieldStrength[row][column] += 9;
 		    		 }
-		    		 else if(row == 0 || row == fieldSize -1 || column == 0 || column == fieldSize -1)
+		    		 else if(row == 1 || row == fieldSize -1 || column == 1 || column == fieldSize -1)
 		    		 {
 		    			 fieldStrength[row][column] += 7;
 		    		 }
-		    		 else if(row == fieldSize -2 && column == fieldSize -2 || row == 1 && column == fieldSize -2 ||
-		    				 row == fieldSize -2 && column == 1 || row == 1 && column == 1)
+		    		 else if(row == fieldSize -2 && column == fieldSize -2 || row == 2 && column == fieldSize -2 ||
+		    				 row == fieldSize -2 && column == 2 || row == 2 && column == 2)
 		    		 {
 		    			 fieldStrength[row][column] += 0;
 		    		 }
-		    		 else if(row == 1 || row == fieldSize -2 || column == 1 || column == fieldSize -2)
+		    		 else if(row == 2 || row == fieldSize -2 || column == 2 || column == fieldSize -2)
 		    		 {
 		    			 fieldStrength[row][column] += 2;
 		    		 }
@@ -125,8 +127,8 @@ public class GameAI extends Player
 		}
 
 		// Calculation to find the best move.
-		for (int row = 0; row < calculator.getFieldSize(); row++){
-		     for (int column = 0; column < calculator.getFieldSize(); column++)
+		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
 		     {
 		    	 if(fieldStrength[row][column] > max)
 		    	 {
