@@ -79,11 +79,12 @@ public class Calculator {
 		 * Checks how many fields can be captured for every direction.
 		 */
 		captureValue += calcOnePath(token, column-1, row-1, -1, -1); // Top, left
-		captureValue += calcOnePath(token, column-1, row, -1, 0); // Top, middle
-		captureValue += calcOnePath(token, column-1, row+1, -1, 1); // Top, right
-		captureValue += calcOnePath(token, column, row-1, 0, -1); // Middle, left
-		captureValue += calcOnePath(token, column, row+1, 0, 1); // Middle, right
-		captureValue += calcOnePath(token, column+1, row-1, 1, -1); // Bottom, left
+		captureValue += calcOnePath(token, column-1, row, -1, 0); // Middle, left
+		captureValue += calcOnePath(token, column-1, row+1, -1, 1); // Bottom, left
+		captureValue += calcOnePath(token, column, row-1, 0, -1); // Top, middle
+		captureValue += calcOnePath(token, column, row+1, 0, 1); // Bottom, middle
+		captureValue += calcOnePath(token, column+1, row-1, 1, -1); // Top, right
+		captureValue += calcOnePath(token, column+1, row, 1, 0); // Middle, right
 		captureValue += calcOnePath(token, column+1, row+1, 1, 1); // Bottom, right
 
 		return captureValue;
