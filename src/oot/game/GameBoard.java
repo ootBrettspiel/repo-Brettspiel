@@ -25,7 +25,7 @@ public class GameBoard implements Serializable
 	 */
 	public GameBoard(int size) throws IllegalArgumentException
 	{
-		if (size < 6 || size > 16 || size % 2 != 0)
+		if (size < 6 || size > 10 || size % 2 != 0)
 		{
 			throw new IllegalArgumentException("The size was not valid.");
 		}

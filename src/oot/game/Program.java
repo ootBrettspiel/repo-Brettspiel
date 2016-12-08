@@ -45,7 +45,7 @@ public class Program
 				catch (IllegalArgumentException e)
 				{
 					System.out.println("Die eingegebene Spielfeldgröße ist unzulässig."
-							+ "Bitte geben Sie eine gerade Zahl von 6 bis 16 an.");
+							+ "Bitte geben Sie eine gerade Zahl von 6 bis 10 an.");
 
 					continue;
 				}

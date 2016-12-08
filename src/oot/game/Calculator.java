@@ -2,6 +2,7 @@ package oot.game;
 
 import java.awt.Point;
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * This Class is used for every kind of game calculation, especially for the GameAI.
@@ -202,5 +203,85 @@ public class Calculator {
 
 	public int getInnerFieldSize() {
 		return innerFieldSize;
+	}
+
+	/**
+	 * Calculates the next move for the GameAI.
+	 * @param diffictuly - Diffictuly mode the GameAI is actual playing
+	 * @return the field to place the stone
+	 */
+	public int[] calcSetPhase(Difficulty difficulty)
+	{
+		cells = board.getCells();
+		int[] field = new int[2];
+		int counter = 0;
+
+		while(counter < 10)
+		{
+			for(int row = 0; row < fieldSize; row += fieldSize-1)
+			{
+				for(int column = 1; column < fieldSize-1; column++)
+				{
+					if(cells[column][row].getToken() == null)
+					{
+						if(calcSetPhaseHelper(difficulty, column, row, counter))
+						{
+							field[0] = column;
+							field[1] = row;
+							return field;
+						}
+					}
+				}
+			}
+			for(int column = 0; column < fieldSize; column += fieldSize-1)
+			{
+				for(int row = 1; row < fieldSize-1; row++)
+				{
+					if(cells[column][row].getToken() == null)
+					{
+						if(calcSetPhaseHelper(difficulty, column, row, counter))
+						{
+							field[0] = column;
+							field[1] = row;
+							return field;
+						}
+					}
+				}
+			}
+			counter ++;
+		}
+		throw new IllegalArgumentException("Found no valid field!");
+	}
+
+	/**
+	 * Helps the calcSetPhase method with calculations.
+	 * @param difficulty - Diffictuly mode the GameAI is actual playing
+	 * @param column to check
+	 * @param row to check
+	 * @param counter - to prevent problems with the randoms
+	 * @return true if the move is good, false if not
+	 */
+	public boolean calcSetPhaseHelper(Difficulty difficulty, int column, int row, int counter)
+	{
+		Random random = new Random();
+		cells = board.getCells();
+		boolean randField = false;
+
+		if(cells[column][row].getToken() == null)
+		{
+			if((column == 0 && (row == 1 || row == fieldSize-2)) || (column == fieldSize -1 && ((row == 1 || row == fieldSize -2))) ||
+			   (row == 0 && (column == 1 || column == fieldSize-2)) || (row == fieldSize -1 && ((column == 1 || column == fieldSize -2))))
+			{
+				randField = true;
+			}
+
+			if(difficulty == Difficulty.EASY && (random.nextInt(10) == 0 || counter > 5))
+				return true;
+			else if(difficulty == Difficulty.MEDIUM && ((randField && random.nextInt(2) == 0) || random.nextInt(20) == 0 || counter > 5))
+				return true;
+			else if(difficulty == Difficulty.HARD && (randField || counter > 5))
+				return true;
+		}
+		return false;
 	}
 }

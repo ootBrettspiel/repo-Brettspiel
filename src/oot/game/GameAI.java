@@ -45,18 +45,26 @@ public class GameAI extends Player
 	 */
 	private void easyMode(GamePhase phase)
 	{
-		int[][] fieldStrength = calculator.calcFields(this.getToken());
+		if(phase == GamePhase.SET)
+		{
+			int[] field = calculator.calcSetPhase(difficulty);
+			board.setToken(token, field[0], field[1], phase);
+		}
+		else if(phase == GamePhase.REGULAR)
+		{
+			int[][] fieldStrength = calculator.calcFields(this.getToken());
 
-		int random = new Random().nextInt(calculator.calcPossibleMoves(this.getToken()));
-		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
-		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
-		     {
-		    	if(fieldStrength[column][row] > 0 && random == 0)
-		    	{
-		    		board.setToken(token, column, row, phase);
-		    		return;
-		    	}
-		     }
+			int random = new Random().nextInt(calculator.calcPossibleMoves(this.getToken()));
+			for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+			     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
+			     {
+			    	if(fieldStrength[column][row] > 0 && random == 0)
+			    	{
+			    		board.setToken(token, column, row, phase);
+			    		return;
+			    	}
+			     }
+			}
 		}
 	}
 
@@ -65,23 +73,31 @@ public class GameAI extends Player
 	 */
 	private void normalMode(GamePhase phase)
 	{
-		int[][] fieldStrength = calculator.calcFields(this.getToken());
-		int max = 0;
-		int[] bestMove = new int[2];
-
-		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
-		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
-		     {
-		    	 if(fieldStrength[column][row] > max)
-		    	 {
-		    		 bestMove[0] = row;
-		    		 bestMove[1] = column;
-		    	 }
-
-		     }
+		if(phase == GamePhase.SET)
+		{
+			int[] field = calculator.calcSetPhase(difficulty);
+			board.setToken(token, field[0], field[1], phase);
 		}
-		board.setToken(token, bestMove[1], bestMove[0], phase);
-		return;
+		else if(phase == GamePhase.REGULAR)
+		{
+			int[][] fieldStrength = calculator.calcFields(this.getToken());
+			int max = 0;
+			int[] bestMove = new int[2];
+
+			for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+			     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
+			     {
+			    	 if(fieldStrength[column][row] > max)
+			    	 {
+			    		 bestMove[0] = row;
+			    		 bestMove[1] = column;
+			    	 }
+
+			     }
+			}
+			board.setToken(token, bestMove[1], bestMove[0], phase);
+			return;
+		}
 	}
 
 	/**
@@ -89,59 +105,68 @@ public class GameAI extends Player
 	 */
 	private void hardMode(GamePhase phase)
 	{
-		int max = 0;
-		int[] bestMove = new int[2];
-		int[][] fieldStrength = calculator.calcFields(this.getToken());
-		int fieldSize = calculator.getInnerFieldSize()+1;
 
-		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
-		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
-		     {
-		    	 // Add field ratings to the possible moves.
-		    	 if(fieldStrength[column][row] > 0) {
-		    		 if(row == fieldSize -1 && column == fieldSize -1 || row == fieldSize -1 && column == 1 ||
-		    			row == 1 && column == fieldSize -1 || row == 1 && column == 1 ||
-		    			row == fieldSize -1 && column == fieldSize -2 || row == fieldSize -2 && column == fieldSize -1 ||
-		    			row == -2 && column == 0 || row == fieldSize -1 && column == 1 ||
-		    			row == 0 && column == fieldSize -2 || row == 1 && column == fieldSize -1 ||
-		    			row == 0 && column == 1 || row == 1 && column == 0)
-		    		 {
-		    			fieldStrength[row][column] += 9;
-		    		 }
-		    		 else if(row == 1 || row == fieldSize -1 || column == 1 || column == fieldSize -1)
-		    		 {
-		    			 fieldStrength[row][column] += 7;
-		    		 }
-		    		 else if(row == fieldSize -2 && column == fieldSize -2 || row == 2 && column == fieldSize -2 ||
-		    				 row == fieldSize -2 && column == 2 || row == 2 && column == 2)
-		    		 {
-		    			 fieldStrength[row][column] += 0;
-		    		 }
-		    		 else if(row == 2 || row == fieldSize -2 || column == 2 || column == fieldSize -2)
-		    		 {
-		    			 fieldStrength[row][column] += 2;
-		    		 }
-		    		 else
-		    		 {
-		    			 fieldStrength[row][column] += 4;
-		    		 }
-		    	 }
-		     }
+		if(phase == GamePhase.SET)
+		{
+			int[] field = calculator.calcSetPhase(difficulty);
+			board.setToken(token, field[0], field[1], phase);
 		}
+		else if(phase == GamePhase.REGULAR)
+		{
+			int max = 0;
+			int[] bestMove = new int[2];
+			int[][] fieldStrength = calculator.calcFields(this.getToken());
+			int fieldSize = calculator.getInnerFieldSize()+1;
 
-		// Calculation to find the best move.
-		for (int row = 0; row < calculator.getInnerFieldSize(); row++){
-		     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
-		     {
-		    	 if(fieldStrength[column][row] > max)
-		    	 {
-		    		 bestMove[0] = column;
-		    		 bestMove[1] = row;
-		    	 }
+			for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+			     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
+			     {
+			    	 // Add field ratings to the possible moves.
+			    	 if(fieldStrength[column][row] > 0) {
+			    		 if(row == fieldSize -1 && column == fieldSize -1 || row == fieldSize -1 && column == 1 ||
+			    			row == 1 && column == fieldSize -1 || row == 1 && column == 1 ||
+			    			row == fieldSize -1 && column == fieldSize -2 || row == fieldSize -2 && column == fieldSize -1 ||
+			    			row == -2 && column == 0 || row == fieldSize -1 && column == 1 ||
+			    			row == 0 && column == fieldSize -2 || row == 1 && column == fieldSize -1 ||
+			    			row == 0 && column == 1 || row == 1 && column == 0)
+			    		 {
+			    			fieldStrength[row][column] += 9;
+			    		 }
+			    		 else if(row == 1 || row == fieldSize -1 || column == 1 || column == fieldSize -1)
+			    		 {
+			    			 fieldStrength[row][column] += 7;
+			    		 }
+			    		 else if(row == fieldSize -2 && column == fieldSize -2 || row == 2 && column == fieldSize -2 ||
+			    				 row == fieldSize -2 && column == 2 || row == 2 && column == 2)
+			    		 {
+			    			 fieldStrength[row][column] += 0;
+			    		 }
+			    		 else if(row == 2 || row == fieldSize -2 || column == 2 || column == fieldSize -2)
+			    		 {
+			    			 fieldStrength[row][column] += 2;
+			    		 }
+			    		 else
+			    		 {
+			    			 fieldStrength[row][column] += 4;
+			    		 }
+			    	 }
+			     }
+			}
 
-		     }
+			// Calculation to find the best move.
+			for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+			     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
+			     {
+			    	 if(fieldStrength[column][row] > max)
+			    	 {
+			    		 bestMove[0] = column;
+			    		 bestMove[1] = row;
+			    	 }
+
+			     }
+			}
+			board.setToken(token, bestMove[0], bestMove[1], phase);
+			return;
 		}
-		board.setToken(token, bestMove[0], bestMove[1], phase);
-		return;
 	}
 }
