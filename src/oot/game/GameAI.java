@@ -53,17 +53,20 @@ public class GameAI extends Player
 		else if(phase == GamePhase.REGULAR)
 		{
 			int[][] fieldStrength = calculator.calcFields(this.getToken());
-
-			int random = new Random().nextInt(calculator.calcPossibleMoves(this.getToken()));
-			for (int row = 0; row < calculator.getInnerFieldSize(); row++){
-			     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
-			     {
-			    	if(fieldStrength[column][row] > 0 && random == 0)
-			    	{
-			    		board.setToken(token, column, row, phase);
-			    		return;
-			    	}
-			     }
+			int counter = 0;
+			Random random = new Random();
+			while(counter < 10)
+			{
+				for (int row = 0; row < calculator.getInnerFieldSize(); row++){
+				     for (int column = 0; column < calculator.getInnerFieldSize(); column++)
+				     {
+				    	if(fieldStrength[column][row] > 0 && (random.nextInt(20) == 0 || counter > 5))
+				    	{
+				    		board.setToken(token, column, row, phase);
+				    		return;
+				    	}
+				     }
+				}
 			}
 		}
 	}
