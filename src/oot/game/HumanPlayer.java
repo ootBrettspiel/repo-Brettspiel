@@ -15,7 +15,7 @@ public class HumanPlayer extends Player
 	}
 
 	@Override
-	public void makeTurn()
+	public boolean makeTurn(GamePhase phase)
 	{
 		System.out.println("Spieler " + name + " ist am Zug:");
 
@@ -31,7 +31,7 @@ public class HumanPlayer extends Player
 			{
 				String s = input.getNext();
 
-				if (s.length() > 1)
+				if (s.length() != 1)
 				{
 					System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
 					continue;
@@ -43,12 +43,29 @@ public class HumanPlayer extends Player
 				{
 					try
 					{
-						row = Integer.parseInt(input.getNext())-1;
+						row = Integer.parseInt(input.getNext()) - 1;
 					}
 					catch (NumberFormatException e)
 					{
 						System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
 						continue;
+					}
+
+					switch (phase)
+					{
+					case REGULAR:
+						if (column < 1 || column >= board.getCells().length - 1 || row < 1 || row >= board.getCells().length - 1)
+						{
+							System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
+							continue;
+						}
+						break;
+					case SET:
+						if (column > 0 && column < board.getCells().length - 1 && row > 0 && row < board.getCells().length - 1 || column < 0 || column >= board.getCells().length ||  row < 0 || row >= board.getCells().length)
+						{
+							System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
+							continue;
+						}
 					}
 				}
 				else
@@ -63,9 +80,9 @@ public class HumanPlayer extends Player
 				continue;
 			}
 
-			if (calculator.isTheMovePossible(token, column, row))
+			if (calculator.isTheMovePossible(token, column, row, phase))
 			{
-				board.setToken(token, column, row);
+				board.setToken(token, column, row, phase);
 				break;
 			}
 			else
@@ -74,5 +91,8 @@ public class HumanPlayer extends Player
 				continue;
 			}
 		}
+
+		// TODO: return false if no token was placed
+		return true;
 	}
 }

@@ -122,15 +122,18 @@ public class GameBoard implements Serializable
 	 * @param column The x-index of the field.
 	 * @param rowThe y-index of the field.
 	 */
-	public void setToken(Token token, int column, int row)
+	public void setToken(Token token, int column, int row, GamePhase phase)
 	{
-		Point[] reversed = calculator.calculateReversedFields(token, column, row);
-
 		cells[column][row].setToken(token);
 
-		for (int i = 0; i < reversed.length; i++)
+		if (phase == GamePhase.REGULAR)
 		{
-			cells[reversed[i].x][reversed[i].y].reverse();
+			Point[] reversed = calculator.calculateReversedFields(token, column, row);
+
+			for (int i = 0; i < reversed.length; i++)
+			{
+				cells[reversed[i].x][reversed[i].y].reverse();
+			}
 		}
 	}
 

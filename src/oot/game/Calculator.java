@@ -73,7 +73,7 @@ public class Calculator {
 	 */
 	public int calcOneField(Token token, int column, int row)
 	{
-		if(row >= cells[1].length || column >= cells[0].length || row == 0 || column == 0 || cells[column][row].getToken() == Token.BLOCKED)
+		if(row >= cells.length - 1 || column >= cells.length - 1 || row < 1 || column < 1 || cells[column][row].getToken() != null)
 			return 0;
 
 		int captureValue = 0;
@@ -140,9 +140,20 @@ public class Calculator {
 	 * @param column
 	 * @return true if the move is possible, false if not.
 	 */
-	public boolean isTheMovePossible(Token token, int column, int row)
+	public boolean isTheMovePossible(Token token, int column, int row, GamePhase phase)
 	{
-		return calcOneField(token, column, row) == 0 ? false : true;
+		if (phase == GamePhase.REGULAR)
+		{
+			return calcOneField(token, column, row) == 0 ? false : true;
+		}
+		else if (board.getCells()[column][row].getToken() == null)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**

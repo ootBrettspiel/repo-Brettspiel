@@ -43,7 +43,7 @@ public abstract class Player
 	 * Gives this palyer the opportunity to make a turn.
 	 * @author Christopher Rotter
 	 */
-	public abstract void makeTurn();
+	public abstract boolean makeTurn(GamePhase phase);
 
 	public Token getToken()
 	{

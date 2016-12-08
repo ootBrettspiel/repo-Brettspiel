@@ -27,20 +27,23 @@ public class GameAI extends Player
 	 * Starts the matching AI method.
 	 */
 	@Override
-	public void makeTurn()
+	public boolean makeTurn(GamePhase phase)
 	{
 		if(difficulty == Difficulty.EASY)
-			easyMode();
+			easyMode(phase);
 		else if(difficulty == Difficulty.MEDIUM)
-			normalMode();
+			normalMode(phase);
 		else if(difficulty == Difficulty.HARD)
-			hardMode();
+			hardMode(phase);
+
+		// TODO: return false if no token was placed
+		return true;
 	}
 
 	/**
 	 * Method to let the GameKI make a move on the easy mode.
 	 */
-	private void easyMode()
+	private void easyMode(GamePhase phase)
 	{
 		int[][] fieldStrength = calculator.calcFields(this.getToken());
 
@@ -50,7 +53,7 @@ public class GameAI extends Player
 		     {
 		    	if(fieldStrength[column][row] > 0 && random == 0)
 		    	{
-		    		board.setToken(token, column, row);
+		    		board.setToken(token, column, row, phase);
 		    		return;
 		    	}
 		     }
@@ -60,7 +63,7 @@ public class GameAI extends Player
 	/**
 	 * Method to let the GameKI make a move on the normal mode.
 	 */
-	private void normalMode()
+	private void normalMode(GamePhase phase)
 	{
 		int[][] fieldStrength = calculator.calcFields(this.getToken());
 		int max = 0;
@@ -77,14 +80,14 @@ public class GameAI extends Player
 
 		     }
 		}
-		board.setToken(token, bestMove[1], bestMove[0]);
+		board.setToken(token, bestMove[1], bestMove[0], phase);
 		return;
 	}
 
 	/**
 	 * Method to let the GameKI make a move on the hard mode.
 	 */
-	private void hardMode()
+	private void hardMode(GamePhase phase)
 	{
 		int max = 0;
 		int[] bestMove = new int[2];
@@ -138,7 +141,7 @@ public class GameAI extends Player
 
 		     }
 		}
-		board.setToken(token, bestMove[0], bestMove[1]);
+		board.setToken(token, bestMove[0], bestMove[1], phase);
 		return;
 	}
 }
