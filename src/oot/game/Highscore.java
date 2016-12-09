@@ -1,16 +1,10 @@
 package oot.game;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 
 public class Highscore {
 
@@ -25,14 +19,14 @@ public class Highscore {
 	 * @param
 	 * @throws IOException
 	 */
-	
-	
+
+
 
 
 
 	// Pfad zum speichern des Highscroes
 	private String path = "C:/Users/" + System.getProperty("user.name") + "/Documents/highscore.txt";
-	
+
 
 	public void print(/* Player player */) throws IOException {
 		PrintWriter out = new PrintWriter(new FileWriter(path, true));

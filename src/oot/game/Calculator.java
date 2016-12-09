@@ -1,6 +1,5 @@
 package oot.game;
 
-import java.awt.Point;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -20,7 +19,7 @@ public class Calculator {
 	{
 		this.board = board;
 		cells = board.getCells();
-		innerFieldSize = cells[0].length-2;
+		innerFieldSize = cells.length-2;
 		fieldSize = innerFieldSize+2;
 	}
 
@@ -34,8 +33,8 @@ public class Calculator {
 	{
 		int possibleMoves = 0;
 		int[][] fieldStrength = calcFields(token);
-		for (int row = 0; row < innerFieldSize; row++){
-		     for (int column = 0; column < innerFieldSize; column++)
+		for (int row = 1; row < fieldSize-1; row++){
+		     for (int column = 1; column < fieldSize-1; column++)
 		     {
 		    	 if(fieldStrength[column][row] != 0)
 		    		 possibleMoves++;
@@ -50,11 +49,11 @@ public class Calculator {
 	public int[][] calcFields(Token token)
 	{
 		cells = board.getCells();
-		int[][] fieldStrength = new int[innerFieldSize][innerFieldSize];
+		int[][] fieldStrength = new int[fieldSize][fieldSize];
 
 		// check every field
-		for (int row = 0; row < innerFieldSize; row++){
-		     for (int column = 0; column < innerFieldSize; column++)
+		for (int row = 1; row < fieldSize-1; row++){
+		     for (int column = 1; column < fieldSize-1; column++)
 		     {
 		    	 if(cells[column][row].getToken() == null)
 		    	 {
@@ -74,9 +73,6 @@ public class Calculator {
 	 */
 	public int calcOneField(Token token, int column, int row)
 	{
-		if(row >= cells.length - 1 || column >= cells.length - 1 || row < 1 || column < 1 || cells[column][row].getToken() != null)
-			return 0;
-
 		int captureValue = 0;
 		/*
 		 * Checks how many fields can be captured for every direction.
@@ -199,12 +195,6 @@ public class Calculator {
 		return coordinateList.toArray(new Coordinate[coordinateList.size()]);
 	}
 
-	// Getter
-
-	public int getInnerFieldSize() {
-		return innerFieldSize;
-	}
-
 	/**
 	 * Calculates the next move for the GameAI.
 	 * @param diffictuly - Diffictuly mode the GameAI is actual playing
@@ -284,4 +274,14 @@ public class Calculator {
 		}
 		return false;
 	}
+
+	// Getter
+
+		public int getInnerFieldSize() {
+			return innerFieldSize;
+		}
+
+		public int getFieldSize() {
+			return fieldSize;
+		}
 }
