@@ -40,10 +40,11 @@ public abstract class Player
 	}
 
 	/**
-	 * Gives this palyer the opportunity to make a turn.
+	 * Retrieves the position where the player wants to put a token.
+	 * @return The coordinate where the token should be set.
 	 * @author Christopher Rotter
 	 */
-	public abstract boolean makeTurn(GamePhase phase);
+	public abstract Coordinate getTurn(GamePhase phase);
 
 	public Token getToken()
 	{

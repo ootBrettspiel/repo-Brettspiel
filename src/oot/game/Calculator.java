@@ -141,13 +141,13 @@ public class Calculator {
 	 * @param column
 	 * @return true if the move is possible, false if not.
 	 */
-	public boolean isTheMovePossible(Token token, int column, int row, GamePhase phase)
+	public boolean isMovePossible(Token token, Coordinate position, GamePhase phase)
 	{
 		if (phase == GamePhase.REGULAR)
 		{
-			return calcOneField(token, column, row) == 0 ? false : true;
+			return calcOneField(token, position.getX(), position.getY()) == 0 ? false : true;
 		}
-		else if (board.getCells()[column][row].getToken() == null)
+		else if (board.getCells()[position.getX()][position.getY()].getToken() == null)
 		{
 			return true;
 		}
@@ -162,20 +162,20 @@ public class Calculator {
 	 * @param token The token that should be placed.
 	 * @param column The x-index of the field.
 	 * @param row The y-index of the field.
-	 * @return An array of points that represent the coordinates of reversable tokens.
+	 * @return An array of coordinates that represent the coordinates of reversable tokens.
 	 * @author Christopher Rotter
 	 */
-	public Point[] calculateReversedFields(Token token, int column, int row)
+	public Coordinate[] calculateReversedFields(Token token, Coordinate position)
 	{
-		LinkedList<Point> pointList = new LinkedList<>();
+		LinkedList<Coordinate> coordinateList = new LinkedList<>();
 		int directionX = -1;
 		int directionY = -1;
 
 		for (int i = 0; i < 8; i++)
 		{
-			for (int j = 1; j <= calcOnePath(token, column + directionX, row + directionY, directionX, directionY); j++)
+			for (int j = 1; j <= calcOnePath(token, position.getX() + directionX, position.getY() + directionY, directionX, directionY); j++)
 			{
-				pointList.add(new Point(column + directionX * j, row + directionY * j));
+				coordinateList.add(new Coordinate(position.getX() + directionX * j, position.getY() + directionY * j));
 			}
 
 			if (i < 2)
@@ -196,7 +196,7 @@ public class Calculator {
 			}
 		}
 
-		return pointList.toArray(new Point[pointList.size()]);
+		return coordinateList.toArray(new Coordinate[coordinateList.size()]);
 	}
 
 	// Getter

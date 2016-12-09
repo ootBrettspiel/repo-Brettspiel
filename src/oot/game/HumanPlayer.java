@@ -15,74 +15,53 @@ public class HumanPlayer extends Player
 	}
 
 	@Override
-	public boolean makeTurn(GamePhase phase)
+	public Coordinate getTurn(GamePhase phase)
 	{
 		System.out.println("Spieler " + name + " ist am Zug:");
 
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		int row, column;
+		Coordinate position;
 
 		while (true)
 		{
-			InputFormatter input = new InputFormatter(scanner);
-			input.readInput();
+			String input = scanner.nextLine();
 
-			if (!input.isAtEnd())
+			if (phase == GamePhase.REGULAR && input.equals("-"))
 			{
-				String s = input.getNext();
-
-				if (s.length() != 1)
-				{
-					System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
-					continue;
-				}
-
-				column = s.toCharArray()[0] - 65;
-
-				if (!input.isAtEnd())
-				{
-					try
-					{
-						row = Integer.parseInt(input.getNext()) - 1;
-					}
-					catch (NumberFormatException e)
-					{
-						System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
-						continue;
-					}
-
-					switch (phase)
-					{
-					case REGULAR:
-						if (column < 1 || column >= board.getCells().length - 1 || row < 1 || row >= board.getCells().length - 1)
-						{
-							System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
-							continue;
-						}
-						break;
-					case SET:
-						if (column > 0 && column < board.getCells().length - 1 && row > 0 && row < board.getCells().length - 1 || column < 0 || column >= board.getCells().length ||  row < 0 || row >= board.getCells().length)
-						{
-							System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
-							continue;
-						}
-					}
-				}
-				else
-				{
-					System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
-					continue;
-				}
+				return null;
 			}
-			else
+
+			try
+			{
+				position = new Coordinate(input);
+			}
+			catch (IllegalArgumentException e)
 			{
 				System.out.println("Fehlerhafte eingabe. Bitte wiederholen:");
 				continue;
 			}
 
-			if (calculator.isTheMovePossible(token, column, row, phase))
+			switch (phase)
 			{
-				board.setToken(token, column, row, phase);
+			case REGULAR:
+				if (position.getX() < 1 || position.getX() >= board.getCells().length - 1 || position.getY() < 1 || position.getY() >= board.getCells().length - 1)
+				{
+					System.out.println("Ungültiger Zug. Bitte wiederholen:");
+					continue;
+				}
+				break;
+			case SET:
+				if (position.getX() > 0 && position.getX() < board.getCells().length - 1 && position.getY() > 0 && position.getY() < board.getCells().length - 1 || position.getX() < 0 || position.getX() >= board.getCells().length ||  position.getY() < 0 || position.getY() >= board.getCells().length)
+				{
+					System.out.println("Ungültiger Zug. Bitte wiederholen:");
+					continue;
+				}
+			}
+
+			if (calculator.isMovePossible(token, position, phase))
+			{
+				// board.setToken(token, position.getX(), position.getY(), phase);
 				break;
 			}
 			else
@@ -92,7 +71,6 @@ public class HumanPlayer extends Player
 			}
 		}
 
-		// TODO: return false if no token was placed
-		return true;
+		return position;
 	}
 }

@@ -37,9 +37,11 @@ public class Program
 				{
 					GameBoard board = new GameBoard(Integer.parseInt(input.getNext()));
 					Calculator calc = new Calculator(board);
+
 					//TODO: remove circle dependency
 					board.setCalculator(calc);
-					gameManager = new GameManager(board, new HumanPlayer("test", Token.CIRCLE, board, calc), new HumanPlayer("test2", Token.CROSS, board, calc));
+
+					gameManager = new GameManager(board, calc, new HumanPlayer("test", Token.CIRCLE, board, calc), new HumanPlayer("test2", Token.CROSS, board, calc));
 					break;
 				}
 				catch (IllegalArgumentException e)

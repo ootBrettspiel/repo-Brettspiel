@@ -20,17 +20,17 @@ public class GameBoard implements Serializable
 
 	/**
 	 * Creates a new game board object.
-	 * @param size The number of columns and rows for the inner field. Valid numbers must be even and range from 6 to 16.
+	 * @param size The number of columns and rows for the inner field. Valid numbers must be even and range from 8 to 12.
 	 * @throws IllegalArgumentException Thrown when the parameter size is invalid (see above).
 	 */
 	public GameBoard(int size) throws IllegalArgumentException
 	{
-		if (size < 6 || size > 10 || size % 2 != 0)
+		if (size < 8 || size > 12 || size % 2 != 0)
 		{
 			throw new IllegalArgumentException("The size was not valid.");
 		}
 
-		cells = new Cell[size + 2][size + 2];
+		cells = new Cell[size][size];
 
 		for (int i = 0; i < cells.length; i++)
 		{
@@ -119,20 +119,20 @@ public class GameBoard implements Serializable
 	/**
 	 * Places a token at the given position and reverses all enemy tokens that should be reversed.
 	 * @param token The token that will be placed.
-	 * @param column The x-index of the field.
-	 * @param rowThe y-index of the field.
+	 * @param position The position where the token will be placed.
+	 * @param phase The game phase in which the move is happening.
 	 */
-	public void setToken(Token token, int column, int row, GamePhase phase)
+	public void setToken(Token token, Coordinate position, GamePhase phase)
 	{
-		cells[column][row].setToken(token);
+		cells[position.getX()][position.getY()].setToken(token);
 
 		if (phase == GamePhase.REGULAR)
 		{
-			Point[] reversed = calculator.calculateReversedFields(token, column, row);
+			Coordinate[] reversed = calculator.calculateReversedFields(token, position);
 
 			for (int i = 0; i < reversed.length; i++)
 			{
-				cells[reversed[i].x][reversed[i].y].reverse();
+				cells[reversed[i].getX()][reversed[i].getY()].reverse();
 			}
 		}
 	}

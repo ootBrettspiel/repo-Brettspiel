@@ -1,5 +1,6 @@
 package oot.game;
 
+import java.awt.Point;
 import java.util.Random;
 
 /**
@@ -23,18 +24,33 @@ public class GameAI extends Player
 		this.difficulty = difficulty;
 	}
 
+
+	// TODO: Christian: getTurn(GamePhase phase) replaces makeTurn(GamePhase phase)
+	@Override
+	public Coordinate getTurn(GamePhase phase)
+	{
+		// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
+		return null;
+	}
+
 	/**
 	 * Starts the matching AI method.
 	 */
-	@Override
+
 	public boolean makeTurn(GamePhase phase)
 	{
 		if(difficulty == Difficulty.EASY)
+		{
 			easyMode(phase);
+		}
 		else if(difficulty == Difficulty.MEDIUM)
+		{
 			normalMode(phase);
+		}
 		else if(difficulty == Difficulty.HARD)
+		{
 			hardMode(phase);
+		}
 
 		// TODO: return false if no token was placed
 		return true;
@@ -48,7 +64,9 @@ public class GameAI extends Player
 		if(phase == GamePhase.SET)
 		{
 			int[] field = calculator.calcSetPhase(difficulty);
-			board.setToken(token, field[0], field[1], phase);
+
+			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
+			// board.setToken(token, field[0], field[1], phase);
 		}
 		else if(phase == GamePhase.REGULAR)
 		{
@@ -62,8 +80,8 @@ public class GameAI extends Player
 				     {
 				    	if(fieldStrength[column][row] > 0 && (random.nextInt(20) == 0 || counter > 5))
 				    	{
-				    		board.setToken(token, column, row, phase);
-				    		return;
+				    		// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
+				    		// board.setToken(token, column, row, phase);
 				    	}
 				     }
 				}
@@ -79,7 +97,9 @@ public class GameAI extends Player
 		if(phase == GamePhase.SET)
 		{
 			int[] field = calculator.calcSetPhase(difficulty);
-			board.setToken(token, field[0], field[1], phase);
+
+			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
+			// board.setToken(token, field[0], field[1], phase);
 		}
 		else if(phase == GamePhase.REGULAR)
 		{
@@ -98,8 +118,8 @@ public class GameAI extends Player
 
 			     }
 			}
-			board.setToken(token, bestMove[1], bestMove[0], phase);
-			return;
+			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
+			// board.setToken(token, bestMove[1], bestMove[0], phase);
 		}
 	}
 
@@ -112,7 +132,9 @@ public class GameAI extends Player
 		if(phase == GamePhase.SET)
 		{
 			int[] field = calculator.calcSetPhase(difficulty);
-			board.setToken(token, field[0], field[1], phase);
+
+			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
+			// board.setToken(token, field[0], field[1], phase);
 		}
 		else if(phase == GamePhase.REGULAR)
 		{
@@ -168,8 +190,9 @@ public class GameAI extends Player
 
 			     }
 			}
-			board.setToken(token, bestMove[0], bestMove[1], phase);
-			return;
+
+			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
+			// board.setToken(token, bestMove[0], bestMove[1], phase);
 		}
 	}
 }

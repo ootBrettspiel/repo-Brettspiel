@@ -15,22 +15,26 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class GameManager implements Serializable
 {
-	private GameBoard board;
+	protected GameBoard board;
+	protected Calculator calculator;
 
-	private Player player_1;
-	private Player player_2;
+	protected Player player_1;
+	protected Player player_2;
 
-	private GamePhase phase = GamePhase.SET;
-	private PlayerTurn turn = PlayerTurn.TURNPLAYER_1;
+	protected GamePhase phase = GamePhase.SET;
+	protected PlayerTurn turn = PlayerTurn.TURNPLAYER_1;
 
-	private boolean player_1SkippedTurn = false;
-	private boolean player_2SkippedTurn = false;
+	protected int turnCounter = 0;
 
-	private int turnCounter = 0;
+	public GameManager()
+	{
 
-	public GameManager(GameBoard board, Player player_1, Player player_2)
+	}
+
+	public GameManager(GameBoard board, Calculator calculator, Player player_1, Player player_2)
 	{
 		this.board = board;
+		this.calculator = calculator;
 		this.player_1 = player_1;
 		this.player_2 = player_2;
 	}
@@ -52,43 +56,39 @@ public class GameManager implements Serializable
 	 * Gives the player whose turn it is the opportunity to make a move and draws the game board, then checks if the game has ended.
 	 * @return True if the game has ended.
 	 */
-	private boolean update()
+	protected boolean update()
 	{
+		Coordinate position;
+
 		switch (turn)
 		{
 		case TURNPLAYER_1:
-			if (player_1.makeTurn(phase))
+			position = player_1.getTurn(phase);
+			if (position != null)
 			{
-				player_1SkippedTurn = false;
-			}
-			else
-			{
-				player_1SkippedTurn = true;
+				board.setToken(player_1.getToken(), position, phase);
 			}
 			turn = PlayerTurn.TURNPLAYER_2;
 			break;
 		case TURNPLAYER_2:
-			if (player_2.makeTurn(phase))
+			position = player_2.getTurn(phase);
+			if (position != null)
 			{
-				player_2SkippedTurn = false;
-			}
-			else
-			{
-				player_2SkippedTurn = true;
+				board.setToken(player_2.getToken(), position, phase);
 			}
 			turn = PlayerTurn.TURNPLAYER_1;
 		}
 
 		turnCounter++;
 
-		if (phase == GamePhase.SET && turnCounter >= board.getCells().length)
+		if (phase == GamePhase.SET && turnCounter >= board.getCells().length - 2)
 		{
 			phase = GamePhase.REGULAR;
 		}
 
 		board.draw();
 
-		if (player_1SkippedTurn && player_2SkippedTurn)
+		if (calculator.calcPossibleMoves(player_1.getToken()) == 0 && calculator.calcPossibleMoves(player_2.getToken()) == 0)
 		{
 			// TODO: save highscore, declare winner etc.
 			return true;
