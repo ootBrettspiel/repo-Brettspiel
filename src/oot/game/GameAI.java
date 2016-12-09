@@ -1,6 +1,5 @@
 package oot.game;
 
-import java.awt.Point;
 import java.util.Random;
 
 /**
@@ -24,49 +23,37 @@ public class GameAI extends Player
 		this.difficulty = difficulty;
 	}
 
-
-	// TODO: Christian: getTurn(GamePhase phase) replaces makeTurn(GamePhase phase)
+	/**
+	 * Starts the matching AI method.
+	 * @return the coordinate, where the AI wants to place a stone
+	 */
 	@Override
 	public Coordinate getTurn(GamePhase phase)
 	{
-		// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
-		return null;
-	}
-
-	/**
-	 * Starts the matching AI method.
-	 */
-
-	public boolean makeTurn(GamePhase phase)
-	{
 		if(difficulty == Difficulty.EASY)
 		{
-			easyMode(phase);
+			return easyMode(phase);
 		}
 		else if(difficulty == Difficulty.MEDIUM)
 		{
-			normalMode(phase);
+			return normalMode(phase);
 		}
 		else if(difficulty == Difficulty.HARD)
 		{
-			hardMode(phase);
+			return hardMode(phase);
 		}
-
-		// TODO: return false if no token was placed
-		return true;
+		throw new IllegalArgumentException("Unable to make a turn!");
 	}
 
 	/**
 	 * Method to let the GameKI make a move on the easy mode.
 	 */
-	private void easyMode(GamePhase phase)
+	private Coordinate easyMode(GamePhase phase)
 	{
 		if(phase == GamePhase.SET)
 		{
 			int[] field = calculator.calcSetPhase(difficulty);
-
-			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
-			// board.setToken(token, field[0], field[1], phase);
+			return new Coordinate(field[0], field[1]);
 		}
 		else if(phase == GamePhase.REGULAR)
 		{
@@ -80,26 +67,24 @@ public class GameAI extends Player
 				     {
 				    	if(fieldStrength[column][row] > 0 && (random.nextInt(20) == 0 || counter > 5))
 				    	{
-				    		// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
-				    		// board.setToken(token, column, row, phase);
+				    		return new Coordinate(column, row);
 				    	}
 				     }
 				}
 			}
 		}
+		throw new IllegalArgumentException("Found no possible turn!");
 	}
 
 	/**
 	 * Method to let the GameKI make a move on the normal mode.
 	 */
-	private void normalMode(GamePhase phase)
+	private Coordinate normalMode(GamePhase phase)
 	{
 		if(phase == GamePhase.SET)
 		{
 			int[] field = calculator.calcSetPhase(difficulty);
-
-			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
-			// board.setToken(token, field[0], field[1], phase);
+			return new Coordinate(field[0], field[1]);
 		}
 		else if(phase == GamePhase.REGULAR)
 		{
@@ -112,29 +97,27 @@ public class GameAI extends Player
 			     {
 			    	 if(fieldStrength[column][row] > max)
 			    	 {
-			    		 bestMove[0] = row;
-			    		 bestMove[1] = column;
+			    		 bestMove[0] = column;
+			    		 bestMove[1] = row;
 			    	 }
 
 			     }
 			}
-			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
-			// board.setToken(token, bestMove[1], bestMove[0], phase);
+			return new Coordinate(bestMove[0], bestMove[1]);
 		}
+		throw new IllegalArgumentException("Found no possible turn!");
 	}
 
 	/**
 	 * Method to let the GameKI make a move on the hard mode.
 	 */
-	private void hardMode(GamePhase phase)
+	private Coordinate hardMode(GamePhase phase)
 	{
 
 		if(phase == GamePhase.SET)
 		{
 			int[] field = calculator.calcSetPhase(difficulty);
-
-			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
-			// board.setToken(token, field[0], field[1], phase);
+			return new Coordinate(field[0], field[1]);
 		}
 		else if(phase == GamePhase.REGULAR)
 		{
@@ -191,8 +174,8 @@ public class GameAI extends Player
 			     }
 			}
 
-			// TODO: Christian: return the coordinate where the AI would move, but without placing the token on the board
-			// board.setToken(token, bestMove[0], bestMove[1], phase);
+			return new Coordinate(bestMove[0], bestMove[1]);
 		}
+		throw new IllegalArgumentException("Found no possible turn!");
 	}
 }
