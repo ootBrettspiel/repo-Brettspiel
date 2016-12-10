@@ -7,6 +7,7 @@ import java.util.Random;
  * @author Christian Coenen
  *
  */
+@SuppressWarnings("serial")
 public class GameAI extends Player
 {
 	// Difficulty of the GameAI. (easy, normal, hard)

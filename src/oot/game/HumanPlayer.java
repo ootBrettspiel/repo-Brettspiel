@@ -8,6 +8,7 @@ import java.util.Scanner;
  * @author Christopher Rotter
  *
  */
+@SuppressWarnings("serial")
 public class HumanPlayer extends Player
 {
 	private GameManager gameManager;
