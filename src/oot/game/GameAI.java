@@ -42,7 +42,8 @@ public class GameAI extends Player
 		{
 			return hardMode(phase);
 		}
-		throw new IllegalArgumentException("Unable to make a turn!");
+
+		return null;
 	}
 
 	/**
@@ -73,7 +74,8 @@ public class GameAI extends Player
 				}
 			}
 		}
-		throw new IllegalArgumentException("Found no possible turn!");
+
+		return null;
 	}
 
 	/**
@@ -105,7 +107,8 @@ public class GameAI extends Player
 			}
 			return new Coordinate(bestMove[0], bestMove[1]);
 		}
-		throw new IllegalArgumentException("Found no possible turn!");
+
+		return null;
 	}
 
 	/**
@@ -176,6 +179,7 @@ public class GameAI extends Player
 
 			return new Coordinate(bestMove[0], bestMove[1]);
 		}
-		throw new IllegalArgumentException("Found no possible turn!");
+
+		return null;
 	}
 }

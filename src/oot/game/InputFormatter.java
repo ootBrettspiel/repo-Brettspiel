@@ -68,4 +68,16 @@ public class InputFormatter
 			return false;
 		}
 	}
+
+	public int remaining()
+	{
+		if (arguments == null)
+		{
+			return 0;
+		}
+		else
+		{
+			return arguments.length - pos;
+		}
+	}
 }
