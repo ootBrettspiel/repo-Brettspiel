@@ -41,6 +41,7 @@ public class Program
 					//TODO: remove circle dependency
 					board.setCalculator(calc);
 
+					gameManager = new GameManager(board, calc, new GameAI(Token.CIRCLE, board, calc, Difficulty.HARD), new HumanPlayer("test2", Token.CROSS, board, calc));
 					break;
 				}
 				catch (IllegalArgumentException e)
