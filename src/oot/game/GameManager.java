@@ -31,12 +31,10 @@ public class GameManager implements Serializable
 
 	}
 
-	public GameManager(GameBoard board, Calculator calculator, Player player_1, Player player_2)
+	public GameManager(GameBoard board, Calculator calculator)
 	{
 		this.board = board;
 		this.calculator = calculator;
-		this.player_1 = player_1;
-		this.player_2 = player_2;
 	}
 
 	public boolean start()
@@ -90,7 +88,22 @@ public class GameManager implements Serializable
 
 		if (calculator.calcPossibleMoves(player_1.getToken()) == 0 && calculator.calcPossibleMoves(player_2.getToken()) == 0)
 		{
-			// TODO: save highscore, declare winner etc.
+			// TODO: save highscore, etc.
+			System.out.print("Das Spiel ist zu Ende.");
+
+			Player winner = getWinner();
+
+			if (winner != null)
+			{
+				System.out.print("Der Gewinner ist " + winner.getName());
+			}
+			else
+			{
+				System.out.print("Das Ergebnis ist ein unentschieden");
+			}
+
+			System.out.println(" in " + turn + " Zügen mit dem Punktestand: " + player_1.getName() + " " + board.countTokens(player_1.getToken()) + " : " + board.countTokens(player_2.getToken()) + " " + player_2.getName());
+
 			return true;
 		}
 		else
@@ -98,6 +111,8 @@ public class GameManager implements Serializable
 			return false;
 		}
 	}
+
+
 
 	/**
 	 * Saves the game to file.
@@ -140,5 +155,37 @@ public class GameManager implements Serializable
 		}
 
 		return manager;
+	}
+
+	protected Player getWinner()
+	{
+		if (board.countTokens(player_1.getToken()) > board.countTokens(player_2.getToken()))
+		{
+			return player_1;
+		}
+		else if (board.countTokens(player_1.getToken()) < board.countTokens(player_2.getToken()))
+		{
+			return player_2;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	public void setPlayer(Player player, int position) throws IllegalArgumentException
+	{
+		if (position == 1)
+		{
+			player_1 = player;
+		}
+		else if (position == 2)
+		{
+			player_2 = player;
+		}
+		else
+		{
+			throw new IllegalArgumentException();
+		}
 	}
 }

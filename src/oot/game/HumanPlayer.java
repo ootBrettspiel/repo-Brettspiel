@@ -1,5 +1,6 @@
 package oot.game;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -7,17 +8,21 @@ import java.util.Scanner;
  * @author Christopher Rotter
  *
  */
+@SuppressWarnings("serial")
 public class HumanPlayer extends Player
 {
-	HumanPlayer(String name, Token token, GameBoard board, Calculator calculator)
+	private GameManager gameManager;
+
+	HumanPlayer(String name, Token token, GameBoard board, Calculator calculator, GameManager gameManager)
 	{
 		super(name, token, board, calculator);
+		this.gameManager = gameManager;
 	}
 
 	@Override
 	public Coordinate getTurn(GamePhase phase)
 	{
-		System.out.println("Spieler " + name + " ist am Zug:");
+		System.out.println(name + " ist am Zug:");
 
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
@@ -30,6 +35,18 @@ public class HumanPlayer extends Player
 			if (phase == GamePhase.REGULAR && input.equals("-"))
 			{
 				return null;
+			}
+			else if (input.equals("/save"))
+			{
+				System.out.println("Bitte geben Sie einen Dateipfad an:");
+				try
+				{
+					gameManager.save(scanner.nextLine());
+				}
+				catch (IOException e)
+				{
+					System.out.println("Der angegebene Pfad ist ungültig. Es konnte nicht gespeichert werden.");
+				}
 			}
 
 			try
@@ -59,15 +76,14 @@ public class HumanPlayer extends Player
 				}
 			}
 
-			if (calculator.isMovePossible(token, position, phase))
-			{
-				// board.setToken(token, position.getX(), position.getY(), phase);
-				break;
-			}
-			else
+			if (!calculator.isMovePossible(token, position, phase))
 			{
 				System.out.println("Ungültiger Zug. Versuchen Sie es erneut:");
 				continue;
+			}
+			else
+			{
+				break;
 			}
 		}
 

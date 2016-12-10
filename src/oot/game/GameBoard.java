@@ -129,11 +129,34 @@ public class GameBoard implements Serializable
 		{
 			Coordinate[] reversed = calculator.calculateReversedFields(token, position);
 
+			System.out.print("Es wurden folgende " + reversed.length + " Felder übernommen: ");
+
 			for (int i = 0; i < reversed.length; i++)
 			{
 				cells[reversed[i].getX()][reversed[i].getY()].reverse();
+				System.out.print(reversed[i].toString() + "  ");
+			}
+
+			System.out.println();
+		}
+	}
+
+	public int countTokens(Token token)
+	{
+		int tokens = 0;
+
+		for (int i = 0; i < cells.length; i++)
+		{
+			for (int j = 0; j < cells.length; j++)
+			{
+				if (cells[i][j].getToken() == token)
+				{
+					tokens++;
+				}
 			}
 		}
+
+		return tokens;
 	}
 
 	//TODO: remove circle dependency

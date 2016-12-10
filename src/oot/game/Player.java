@@ -1,11 +1,14 @@
 package oot.game;
 
+import java.io.Serializable;
+
 /**
  * Represents a Player.
  *@author Nico Gensheimer
  *
  */
-public abstract class Player
+@SuppressWarnings("serial")
+public abstract class Player implements Serializable
 {
 	// The players Token (Cross or Circle)
 	protected Token token;

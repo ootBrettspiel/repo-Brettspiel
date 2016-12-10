@@ -1,5 +1,6 @@
 package oot.game;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -8,9 +9,10 @@ import java.util.Random;
  * @author Christian Coenen
  *
  */
-public class Calculator {
-
-	GameBoard board;
+@SuppressWarnings("serial")
+public class Calculator implements Serializable
+{
+	private GameBoard board;
 	private Cell[][] cells;
 	private int innerFieldSize;
 	private int fieldSize;
@@ -73,20 +75,7 @@ public class Calculator {
 	 */
 	public int calcOneField(Token token, int column, int row)
 	{
-		int captureValue = 0;
-		/*
-		 * Checks how many fields can be captured for every direction.
-		 */
-		captureValue += calcOnePath(token, column-1, row-1, -1, -1); // Top, left
-		captureValue += calcOnePath(token, column-1, row, -1, 0); // Middle, left
-		captureValue += calcOnePath(token, column-1, row+1, -1, 1); // Bottom, left
-		captureValue += calcOnePath(token, column, row-1, 0, -1); // Top, middle
-		captureValue += calcOnePath(token, column, row+1, 0, 1); // Bottom, middle
-		captureValue += calcOnePath(token, column+1, row-1, 1, -1); // Top, right
-		captureValue += calcOnePath(token, column+1, row, 1, 0); // Middle, right
-		captureValue += calcOnePath(token, column+1, row+1, 1, 1); // Bottom, right
-
-		return captureValue;
+		return calculateReversedFields(token, new Coordinate(column, row)).length;
 	}
 
 	/**
