@@ -79,7 +79,7 @@ public class GameManager implements Serializable
 
 		turnCounter++;
 
-		if (phase == GamePhase.SET && turnCounter >= board.getCells().length)
+		if (phase == GamePhase.SET && turnCounter >= board.getCells().length-2)
 		{
 			phase = GamePhase.REGULAR;
 		}
