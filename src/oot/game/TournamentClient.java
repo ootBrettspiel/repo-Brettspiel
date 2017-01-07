@@ -8,6 +8,11 @@ package oot.game;
 @SuppressWarnings("serial")
 public class TournamentClient extends GameManager implements ITournament
 {
+	private Token token;
+
+	public TournamentClient(Token token) {
+		this.token = token;
+	}
 
 	@Override
 	public void initializeBoard(int size)
@@ -85,19 +90,25 @@ public class TournamentClient extends GameManager implements ITournament
 	@Override
 	public String[] setStone(String coordinate)
 	{
-		Coordinate position = player_1.getTurn(phase);
+		// Does not work!
+//		Coordinate position = player_1.getTurn(phase);
+//
+//		Coordinate[] reversedCoords = calculator.calculateReversedFields(player_1.getToken(), position);
+//		String[] reversedStrings = new String[reversedCoords.length];
+//
+//		for (int i = 0; i < reversedCoords.length; i++)
+//		{
+//			reversedStrings[i] = reversedCoords[i].toString();
+//		}
 
-		Coordinate[] reversedCoords = calculator.calculateReversedFields(player_1.getToken(), position);
-		String[] reversedStrings = new String[reversedCoords.length];
+		// no function. (not used)
+		String[] s = new String[2];
 
-		for (int i = 0; i < reversedCoords.length; i++)
-		{
-			reversedStrings[i] = reversedCoords[i].toString();
-		}
+		Coordinate position = new Coordinate(coordinate);
+		board.setToken(token, position, phase);
 
-		board.setToken(player_1.getToken(), position, phase);
-
-		return reversedStrings;
+		// no function. (not used)
+		return s;
 	}
 
 	@Override

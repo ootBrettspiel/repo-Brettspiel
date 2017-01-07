@@ -49,6 +49,6 @@ public class Coordinate
 	@Override
 	public String toString()
 	{
-		return nativeX + " " + y;
+		return nativeX + " " + nativeY;
 	}
 }
