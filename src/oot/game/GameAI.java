@@ -117,7 +117,6 @@ public class GameAI extends Player
 	 */
 	private Coordinate hardMode(GamePhase phase)
 	{
-
 		if(phase == GamePhase.SET)
 		{
 			int[] field = calculator.calcSetPhase(difficulty);

@@ -28,8 +28,8 @@ public abstract class Ki extends Benutzer {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public LinkedList getMoeglZuege(LinkedList moeglZuege, Stein farbe) {
 		Stein[] test = Spielbrett.getSpielbrett().clone();
-		for (int i = 1; i <= Spielbrett.getSpielbrettGroesse(); i++) {
-			for (int j = 1; j <= Spielbrett.getSpielbrettGroesse(); j++) {
+		for (int i = 0; i < Spielbrett.getSpielbrettGroesse(); i++) {
+			for (int j = 0; j < Spielbrett.getSpielbrettGroesse(); j++) {
 				if (Spielbrett.zugGueltig(test, new Koordinate(i, j), farbe) == true) {
 					moeglZuege.add(new Koordinate(i, j));
 				} else {

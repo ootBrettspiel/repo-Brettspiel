@@ -99,7 +99,6 @@ public class Spieler extends Benutzer {
 		do {
 			Scanner sc = new Scanner(System.in);
 			String eingabe1 = sc.next().toLowerCase();
-			sc.close();
 			try {
 				Koordinate eingabe = Koordinate.Parse(eingabe1);
 				int ez = eingabe.getZeile();

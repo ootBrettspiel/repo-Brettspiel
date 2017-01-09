@@ -9,6 +9,8 @@ package oot.game;
 public class TournamentClient extends GameManager implements ITournament
 {
 	private Token token;
+	private int counter;
+	private int fieldSize;
 
 	public TournamentClient(Token token) {
 		this.token = token;
@@ -17,6 +19,7 @@ public class TournamentClient extends GameManager implements ITournament
 	@Override
 	public void initializeBoard(int size)
 	{
+		fieldSize = size;
 		board = new GameBoard(size);
 	}
 
@@ -29,6 +32,8 @@ public class TournamentClient extends GameManager implements ITournament
 	@Override
 	public void startGame(boolean isWhitePlayer)
 	{
+		board = new GameBoard(fieldSize);
+		counter = 0;
 		calculator = new Calculator(board);
 
 		// TODO: remove circle dependency
@@ -51,14 +56,47 @@ public class TournamentClient extends GameManager implements ITournament
 	@Override
 	public int whoHasWon()
 	{
-		// TODO: Implement solution
+		int cross = 0;
+		int circle = 0;
+		Cell[][] cells = board.getCells();
+
+		for(int i = 0; i < fieldSize; i++) {
+			for(int j = 0; j < fieldSize; j++) {
+				if(cells[i][j].getToken() == Token.CIRCLE) {
+					circle++;
+				}
+				else if(cells[i][j].getToken() == Token.CROSS) {
+					cross ++;
+				}
+			}
+		}
+
+		if(token == Token.CIRCLE && circle > cross) {
+			return 1;
+		}
+		else if(token == Token.CIRCLE && circle == cross) {
+			return 0;
+		}
+		else if(token == Token.CIRCLE && circle < cross) {
+			return -1;
+		}
+
+		else if(token == Token.CROSS && circle > cross) {
+			return -1;
+		}
+		else if(token == Token.CROSS && circle == cross) {
+			return 0;
+		}
+		else if(token == Token.CROSS && circle < cross) {
+			return 1;
+		}
 		return 0;
 	}
 
 	@Override
 	public boolean canIMove()
 	{
-		if (calculator.calcPossibleMoves(player_1.getToken()) > 0)
+		if (calculator.calcPossibleMoves(token) > 0)
 		{
 			return true;
 		}
@@ -71,19 +109,36 @@ public class TournamentClient extends GameManager implements ITournament
 	@Override
 	public boolean canYouMove()
 	{
-		if (calculator.calcPossibleMoves(player_2.getToken()) > 0)
-		{
+		if(token == Token.CROSS) {
+			if (calculator.calcPossibleMoves(Token.CIRCLE) > 0)
+			{
 			return true;
+			}
 		}
-		else
-		{
-			return false;
+		else {
+			if (calculator.calcPossibleMoves(Token.CROSS) > 0)
+			{
+			return true;
+			}
+		}
+		return false;
+	}
+
+	private void checkPhase() {
+		counter++;
+		if(counter >= 2*(fieldSize/2.0)+1) {
+			phase = GamePhase.REGULAR;
 		}
 	}
+
 
 	@Override
 	public String getBestTurn()
 	{
+		checkPhase();
+		if(calculator.calcPossibleMoves(token) == 0) {
+			return "";
+		}
 		return ((GameAI) player_1).getTurn(phase).toString();
 	}
 
@@ -120,6 +175,7 @@ public class TournamentClient extends GameManager implements ITournament
 	@Override
 	public boolean isMoveValid(String coordinate, boolean isWhite)
 	{
+		checkPhase();
 		Coordinate position = new Coordinate(coordinate);
 		if (token == Token.CIRCLE)
 		{

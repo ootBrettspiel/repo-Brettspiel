@@ -184,7 +184,6 @@ public class Spiel {
 			// pw++;
 			// addUp(Stein.WEISS);
 		}
-		sc.close();
 	}
 
 	// private static void addUp(Stein farbe) {
