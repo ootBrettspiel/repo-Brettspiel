@@ -41,11 +41,11 @@ public class GameBoard implements Serializable
 				}
 				else if (i == cells.length / 2 - 1 && j == cells.length / 2 - 1 || i == cells.length / 2 && j == cells.length / 2)
 				{
-					cells[i][j] = new Cell(Token.CIRCLE);
+					cells[i][j] = new Cell(Token.CROSS);
 				}
 				else if (i == cells.length / 2 && j == cells.length / 2 - 1 || i == cells.length / 2 - 1 && j == cells.length / 2)
 				{
-					cells[i][j] = new Cell(Token.CROSS);
+					cells[i][j] = new Cell(Token.CIRCLE);
 				}
 				else
 				{

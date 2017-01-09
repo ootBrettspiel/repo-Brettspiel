@@ -242,7 +242,7 @@ public class Spielbrett {
 	 * @return Returns true wenn der Zug fuer die gegeben Farbe gueltig ist.
 	 */
 	public static boolean zugGueltig(Stein[] spielfeld, Koordinate koord, Stein farbe) {
-		if (isSetzphase && getSteinAt(spielfeld, koord) == Stein.LEER) {
+		if (getSetzPhase() && getSteinAt(spielfeld, koord) == Stein.LEER) {
 			return true;
 		} else {
 			return geflippteSteine(spielfeld, koord, farbe) > 0;

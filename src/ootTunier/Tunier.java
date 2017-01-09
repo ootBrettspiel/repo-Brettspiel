@@ -13,9 +13,7 @@ public class Tunier {
 	static int p2Gewinnt = 0;
 
 	public static void main(String[] args) throws ExecutionException {
-		ITournament p1 = new TournamentClient(Token.CIRCLE);
-		// ITournament p2 = new TournamentClient(Token.CIRCLE);
-		//ITournament p1 = new TunierKi()
+		ITournament p1 = new TournamentClient(Token.CROSS);
 		ITournament p2 = new TunierKi();
 		p1.initializeBoard(12);
 		p2.initializeBoard(10);

@@ -34,8 +34,8 @@ public class TournamentClient extends GameManager implements ITournament
 	{
 		board = new GameBoard(fieldSize);
 		counter = 0;
+		resetPhase();
 		calculator = new Calculator(board);
-
 		// TODO: remove circle dependency
 		board.setCalculator(calculator);
 
@@ -129,6 +129,10 @@ public class TournamentClient extends GameManager implements ITournament
 		if(counter >= fieldSize+1) {
 			phase = GamePhase.REGULAR;
 		}
+	}
+
+	private void resetPhase() {
+		phase = GamePhase.SET;
 	}
 
 

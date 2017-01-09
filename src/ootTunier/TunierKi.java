@@ -4,7 +4,6 @@ import oot.game.ITournament;
 import ootEnemy.Koordinate;
 import ootEnemy.SchwacheKi;
 import ootEnemy.Spielbrett;
-import ootEnemy.StarkeKi;
 import ootEnemy.Stein;
 
 public class TunierKi extends SchwacheKi implements ITournament {
