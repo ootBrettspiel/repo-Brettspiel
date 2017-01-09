@@ -12,7 +12,7 @@ public class TunierKi extends SchwacheKi implements ITournament {
 
 	public TunierKi() {
 		super(Stein.SCHWARZ, "Ki Datacorp");
-		spielbrett = new Spielbrett(12);
+		spielbrett = new Spielbrett(10);
 	}
 
 	@Override
@@ -93,6 +93,13 @@ public class TunierKi extends SchwacheKi implements ITournament {
 
 	@Override
 	public boolean isMoveValidInStartPhase(String coordinate) {
-		return Spielbrett.zugGueltig(Spielbrett.getSpielbrett(), Koordinate.Parse(coordinate), getFarbe());
+		boolean moeglich = Spielbrett.zugGueltig(Spielbrett.getSpielbrett(), Koordinate.Parse(coordinate),
+				Stein.WEISS);
+		if (moeglich) {
+			Spielbrett.setzeStein(Spielbrett.getSpielbrett(), Koordinate.Parse(coordinate),
+					Stein.WEISS);
+		}
+		return moeglich;
+		//return Spielbrett.zugGueltig(Spielbrett.getSpielbrett(), Koordinate.Parse(coordinate), getFarbe());
 	}
 }

@@ -18,7 +18,7 @@ public class Tunier {
 		//ITournament p1 = new TunierKi()
 		ITournament p2 = new TunierKi();
 		p1.initializeBoard(12);
-		p2.initializeBoard(12);
+		p2.initializeBoard(10);
 
 		for (int i = 1; i <= 50; i++) { // 50 Spiele
 			p1.startGame(FarbeP1);

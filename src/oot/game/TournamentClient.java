@@ -126,7 +126,7 @@ public class TournamentClient extends GameManager implements ITournament
 
 	private void checkPhase() {
 		counter++;
-		if(counter >= 2*(fieldSize/2.0)+1) {
+		if(counter >= fieldSize+1) {
 			phase = GamePhase.REGULAR;
 		}
 	}

@@ -304,7 +304,7 @@ public class Spielbrett {
 
 	public static boolean getSetzPhase() {
 		if (isSetzphase) {
-			if (zuege >= spielbrettGroesse - 2) {
+			if (zuege >= spielbrettGroesse) {
 				stopSetzphase();
 			}
 			return isSetzphase;
