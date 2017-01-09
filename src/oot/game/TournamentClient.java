@@ -120,10 +120,12 @@ public class TournamentClient extends GameManager implements ITournament
 	@Override
 	public boolean isMoveValid(String coordinate, boolean isWhite)
 	{
-		if (isWhite)
+		Coordinate position = new Coordinate(coordinate);
+		if (token == Token.CIRCLE)
 		{
-			if (calculator.isMovePossible(player_1.getToken(), new Coordinate(coordinate), phase))
+			if (calculator.isMovePossible(Token.CROSS, new Coordinate(coordinate), phase))
 			{
+				board.setToken(Token.CROSS, position, phase);
 				return true;
 			}
 			else
@@ -133,8 +135,9 @@ public class TournamentClient extends GameManager implements ITournament
 		}
 		else
 		{
-			if (calculator.isMovePossible(player_2.getToken(), new Coordinate(coordinate), phase))
+			if (calculator.isMovePossible(Token.CIRCLE, new Coordinate(coordinate), phase))
 			{
+				board.setToken(Token.CIRCLE, position, phase);
 				return true;
 			}
 			else
@@ -147,14 +150,7 @@ public class TournamentClient extends GameManager implements ITournament
 	@Override
 	public boolean isMoveValidInStartPhase(String coordinate)
 	{
-		if (calculator.isMovePossible(player_1.getToken(), new Coordinate(coordinate), phase))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return isMoveValid(coordinate, true);
 	}
 
 }

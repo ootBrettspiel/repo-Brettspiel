@@ -45,7 +45,6 @@ public class Tunier {
 			zugP2 = zugP2.replaceAll(" ", "");
 			System.out.println(zugP2);
 			if (p1.isMoveValidInStartPhase(zugP2)) {
-				// PROBLEM ! p1 can´t set opponent (p2) stones !!! So it can´t work actually.
 				p2.setStone(zugP2);
 				System.out.println("P2 zieht nach: " + zugP2);
 			} else {
